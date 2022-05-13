@@ -1,0 +1,169 @@
+import 'package:flutter/material.dart';
+import 'package:penta/routes/login_view.dart';
+import 'package:penta/routes/signup_view.dart';
+import 'package:penta/util/colors.dart';
+import 'package:penta/util/dimensions.dart';
+import 'package:penta/util/styles.dart';
+
+class Welcome extends StatelessWidget {
+  const Welcome({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SafeArea(
+        maintainBottomViewPadding: false,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Expanded(
+              flex: 1,
+              child: Image.asset(
+                'assets/images/penta-transparent.png',
+                width: 200,
+              ),
+            ),
+            Expanded(
+              flex: 1,
+              child: Padding(
+                padding: Dimen.regularPadding,
+                child: RichText(
+                  text: TextSpan(
+                    text: "Welcome.\n",
+                    style: kHeadingTextStyle,
+                    children: <TextSpan>[
+                      TextSpan(
+                        text: "Get started by logging\ninto your account.",
+                        style: TextStyle(
+                          fontSize: 20,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            Expanded(
+              flex: 1,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 30.0, vertical: 20.0),
+                child: Column(
+                  children: [
+                    Row(
+                      children: <Widget>[
+                        Expanded(
+                          flex: 1,
+                          child: OutlinedButton.icon(
+                            icon: Image.asset(
+                              "assets/images/icons8-facebook-240.png",
+                              width: 23,
+                              height: 23,
+                            ),
+                            onPressed: () {
+                              //Navigator.pushNamed(context, '/signup');
+                            },
+                            label: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 12.0),
+                              child: Text(
+                                'Facebook',
+                                style: kButtonDarkTextStyle,
+                              ),
+                            ),
+                            style: OutlinedButton.styleFrom(
+                              backgroundColor: AppColors.secondary,
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 20.0,
+                        ),
+                        Expanded(
+                          flex: 1,
+                          child: OutlinedButton.icon(
+                            icon: Image.asset(
+                              "assets/images/icons8-google-240.png",
+                              width: 23,
+                              height: 23,
+                            ),
+                            onPressed: () {
+                              //Navigator.pushNamed(context, '/signup');
+                            },
+                            label: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 12.0),
+                              child: Text(
+                                'Gmail',
+                                style: kButtonDarkTextStyle,
+                              ),
+                            ),
+                            style: OutlinedButton.styleFrom(
+                              backgroundColor: AppColors.secondary,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 20.0,
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: OutlinedButton(
+                            onPressed: () {
+                              Navigator.pushNamed(context, '/signup');
+                            },
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 12.0),
+                              child: Text(
+                                'Sign up with email',
+                                style: kButtonLightTextStyle,
+                              ),
+                            ),
+                            style: OutlinedButton.styleFrom(
+                              backgroundColor: AppColors.primary,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 20.0,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.pushNamed(context, '/login');
+                          },
+                          child: RichText(
+                            text: TextSpan(
+                              text: "Existing user?  ",
+                              style: kLabelStyle,
+                              children: <TextSpan>[
+                                TextSpan(
+                                  text: "Login now",
+                                  style: TextStyle(
+                                    color: AppColors.primary,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
