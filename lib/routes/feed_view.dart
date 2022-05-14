@@ -3,6 +3,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:penta/util/colors.dart';
 import 'package:penta/util/dimensions.dart';
 import 'package:penta/util/styles.dart';
+import 'package:penta/routes/post_view.dart';
 
 class FeedView extends StatefulWidget {
   const FeedView({Key? key}) : super(key: key);
@@ -100,7 +101,13 @@ class _Tile extends StatelessWidget {
       child: ClipRRect(
         borderRadius: BorderRadius.all(Radius.circular(5)),
         child: InkWell(
-          onTap: () {},
+          onTap: () {
+            Navigator.pushNamed(
+              context,
+              PostView.routeName,
+              arguments: PostArguments("assets/images/$i.jpeg"),
+            );
+          },
           child: Hero(
             child: Image.asset("assets/images/$i.jpeg"),
             tag: "assets/images/$i.jpeg",
