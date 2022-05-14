@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:penta/util/colors.dart';
 import 'package:penta/util/styles.dart';
 
-class Login extends StatefulWidget {
+class LoginView extends StatefulWidget {
   @override
-  _LoginState createState() => _LoginState();
+  _LoginViewState createState() => _LoginViewState();
 
   static const String routeName = '/login';
 }
 
-class _LoginState extends State<Login> {
+class _LoginViewState extends State<LoginView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:penta/routes/login_view.dart';
 import 'package:penta/routes/signup_view.dart';
+import 'package:penta/routes/feed_view.dart';
 import 'package:penta/util/colors.dart';
 import 'package:penta/util/dimensions.dart';
 import 'package:penta/util/styles.dart';
 
-class Welcome extends StatelessWidget {
-  const Welcome({Key? key}) : super(key: key);
+class WelcomeView extends StatelessWidget {
+  const WelcomeView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +20,7 @@ class Welcome extends StatelessWidget {
             Expanded(
               flex: 1,
               child: Image.asset(
-                'assets/images/penta-transparent.png',
+                'assets/icons/penta-transparent.png',
                 width: 200,
               ),
             ),
@@ -56,12 +57,12 @@ class Welcome extends StatelessWidget {
                           flex: 1,
                           child: OutlinedButton.icon(
                             icon: Image.asset(
-                              "assets/images/icons8-facebook-240.png",
+                              "assets/icons/icons8-facebook-240.png",
                               width: 23,
                               height: 23,
                             ),
                             onPressed: () {
-                              //Navigator.pushNamed(context, '/signup');
+                              Navigator.pushNamed(context, FeedView.routeName);
                             },
                             label: Padding(
                               padding:
@@ -83,12 +84,12 @@ class Welcome extends StatelessWidget {
                           flex: 1,
                           child: OutlinedButton.icon(
                             icon: Image.asset(
-                              "assets/images/icons8-google-240.png",
+                              "assets/icons/icons8-google-240.png",
                               width: 23,
                               height: 23,
                             ),
                             onPressed: () {
-                              //Navigator.pushNamed(context, '/signup');
+                              //Google signup
                             },
                             label: Padding(
                               padding:
@@ -113,7 +114,7 @@ class Welcome extends StatelessWidget {
                         Expanded(
                           child: OutlinedButton(
                             onPressed: () {
-                              Navigator.pushNamed(context, '/signup');
+                              Navigator.pushNamed(context, SignUpView.routeName);
                             },
                             child: Padding(
                               padding:
@@ -138,7 +139,7 @@ class Welcome extends StatelessWidget {
                       children: [
                         GestureDetector(
                           onTap: () {
-                            Navigator.pushNamed(context, '/login');
+                            Navigator.pushNamed(context, LoginView.routeName);
                           },
                           child: RichText(
                             text: TextSpan(
