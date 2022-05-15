@@ -4,6 +4,8 @@ import 'package:penta/util/colors.dart';
 import 'package:penta/util/dimensions.dart';
 import 'package:penta/util/styles.dart';
 import 'package:penta/routes/post_view.dart';
+import 'package:penta/model/dummy_data.dart';
+import 'package:penta/model/post.dart';
 
 class FeedView extends StatefulWidget {
   const FeedView({Key? key}) : super(key: key);
@@ -105,12 +107,12 @@ class _Tile extends StatelessWidget {
             Navigator.pushNamed(
               context,
               PostView.routeName,
-              arguments: PostArguments("assets/images/$i.jpeg"),
+              arguments: PostArguments(DUMMY_POSTS[i]),
             );
           },
           child: Hero(
             child: Image.asset("assets/images/$i.jpeg"),
-            tag: "assets/images/$i.jpeg",
+            tag: "$i",
           ),
         ),
       ),

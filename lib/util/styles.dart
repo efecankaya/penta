@@ -34,3 +34,18 @@ final kLabelStyle = GoogleFonts.lato(
   fontSize: 17.0,
   color: AppColors.textColor,
 );
+
+final kFadedLabelStyle = GoogleFonts.lato(
+  fontSize: 17.0,
+  color: Colors.black54,
+);
+
+final kSmallLabelStyle = GoogleFonts.lato(
+  fontSize: 14.0,
+  color: AppColors.textColor,
+);
+
+final kTopicsLabelStyle = GoogleFonts.lato(
+  fontSize: 17.0,
+  color: Color(0xFF3F729B),
+);
