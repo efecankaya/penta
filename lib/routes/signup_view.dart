@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:penta/routes/feed_view.dart';
 import 'package:penta/util/colors.dart';
 import 'package:penta/util/styles.dart';
 import 'package:penta/util/screenSizes.dart';
@@ -140,7 +141,9 @@ class _SignUpViewState extends State<SignUpView> {
                               style: kButtonDarkTextStyle,
                             ),
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.pushNamed(context, FeedView.routeName);
+                          },
                         ),
                       ),
                     ),

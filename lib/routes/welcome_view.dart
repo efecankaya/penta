@@ -62,7 +62,7 @@ class WelcomeView extends StatelessWidget {
                               height: 23,
                             ),
                             onPressed: () {
-                              Navigator.pushNamed(context, FeedView.routeName);
+                              //Facebook signup
                             },
                             label: Padding(
                               padding:
