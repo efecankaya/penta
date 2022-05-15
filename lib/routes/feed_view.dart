@@ -39,54 +39,6 @@ class _FeedViewState extends State<FeedView> {
           ),
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        fixedColor: Colors.grey,
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
-        items: [
-          BottomNavigationBarItem(
-            icon: Image.asset(
-              "assets/icons/home-dark.png",
-              width: 20,
-              height: 20,
-            ),
-            label: "Home",
-          ),
-          BottomNavigationBarItem(
-            icon: Image.asset(
-              "assets/icons/search.png",
-              width: 20,
-              height: 20,
-            ),
-            label: "Search",
-          ),
-          BottomNavigationBarItem(
-            icon: Image.asset(
-              "assets/icons/add.png",
-              width: 20,
-              height: 20,
-            ),
-            label: "Add",
-          ),
-          BottomNavigationBarItem(
-            icon: Image.asset(
-              "assets/icons/envelope.png",
-              width: 20,
-              height: 20,
-            ),
-            label: "Notifications",
-          ),
-          BottomNavigationBarItem(
-            icon: Image.asset(
-              "assets/icons/user.png",
-              width: 20,
-              height: 20,
-            ),
-            label: "Profile",
-          ),
-        ],
-      ),
     );
   }
 }

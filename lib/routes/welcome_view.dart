@@ -114,7 +114,8 @@ class WelcomeView extends StatelessWidget {
                         Expanded(
                           child: OutlinedButton(
                             onPressed: () {
-                              Navigator.pushNamed(context, SignUpView.routeName);
+                              Navigator.pushNamed(
+                                  context, SignUpView.routeName);
                             },
                             child: Padding(
                               padding:

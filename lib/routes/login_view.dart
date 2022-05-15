@@ -114,7 +114,12 @@ class _LoginViewState extends State<LoginView> {
                             ),
                           ),
                           onPressed: () {
-                            Navigator.pushNamed(context, FeedView.routeName);
+                            Navigator.pushNamedAndRemoveUntil(
+                              context,
+                              "/",
+                              (r) => false,
+                              arguments: true,
+                            );
                           },
                         ),
                       ),

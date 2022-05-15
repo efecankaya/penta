@@ -43,7 +43,7 @@ class _SignUpViewState extends State<SignUpView> {
                   children: [
                     Container(
                       padding:
-                      EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                          EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                       width: screenWidth(context, dividedBy: 1.25),
                       decoration: BoxDecoration(
                         color: AppColors.primaryLight,
@@ -71,7 +71,7 @@ class _SignUpViewState extends State<SignUpView> {
                   children: [
                     Container(
                       padding:
-                      EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                          EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                       width: screenWidth(context, dividedBy: 1.25),
                       decoration: BoxDecoration(
                         color: AppColors.primaryLight,
@@ -99,7 +99,7 @@ class _SignUpViewState extends State<SignUpView> {
                   children: [
                     Container(
                       padding:
-                      EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                          EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                       width: screenWidth(context, dividedBy: 1.25),
                       decoration: BoxDecoration(
                         color: AppColors.primaryLight,
@@ -142,7 +142,12 @@ class _SignUpViewState extends State<SignUpView> {
                             ),
                           ),
                           onPressed: () {
-                            Navigator.pushNamed(context, FeedView.routeName);
+                            Navigator.pushNamedAndRemoveUntil(
+                              context,
+                              "/",
+                              (r) => false,
+                              arguments: true,
+                            );
                           },
                         ),
                       ),
