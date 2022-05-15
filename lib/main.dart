@@ -4,6 +4,7 @@ import 'package:penta/routes/signup_view.dart';
 import 'package:penta/routes/welcome_view.dart';
 import 'package:penta/routes/feed_view.dart';
 import 'package:penta/routes/post_view.dart';
+import 'package:penta/util/colors.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -14,5 +15,11 @@ void main() {
       FeedView.routeName: (context) => FeedView(),
       PostView.routeName: (context) => PostView(),
     },
+    theme: ThemeData(
+      colorScheme: ColorScheme.fromSwatch().copyWith(
+        primary: AppColors.quaternary,
+        secondary: AppColors.primary,
+      ),
+    ),
   ));
 }

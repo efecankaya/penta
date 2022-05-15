@@ -6,6 +6,8 @@ class AppColors {
   static const Color tertiary = Color(0xFF190F55);
   static const Color quaternary = Color(0xFFA145BE);
 
+  static const Color primaryLight = Color(0xFFB19EFF);
+
   static const Color textColor = Colors.black;
   static const Color headingColor = Colors.black87;
   static const Color captionColor = Colors.white30;
