@@ -4,6 +4,9 @@ import 'package:penta/util/styles.dart';
 import 'package:penta/util/screenSizes.dart';
 import 'package:penta/model/post.dart';
 import 'package:penta/model/comment.dart';
+import 'package:penta/routes/profile_view.dart';
+import 'package:penta/model/dummy_data.dart';
+import 'package:penta/model/user.dart';
 
 class PostView extends StatefulWidget {
   @override
@@ -34,12 +37,18 @@ class _PostViewState extends State<PostView> {
               padding: EdgeInsets.all(10),
               child: Row(
                 children: [
-                  CircleAvatar(
-                    backgroundColor: AppColors.primary,
-                    child: Image.network(
-                      "https://icon-library.com/images/profile-icon/profile-icon-22.jpg",
-                      fit: BoxFit.fitHeight,
+                  GestureDetector(
+                    child: CircleAvatar(
+                      backgroundColor: AppColors.primary,
+                      child: Image.network(
+                        "https://icon-library.com/images/profile-icon/profile-icon-22.jpg",
+                        fit: BoxFit.fitHeight,
+                      ),
                     ),
+                    onTap: () {
+                      User currentUser = DUMMY_USERS.where((element) => element.username == args.post.username).toList()[0];
+                      Navigator.pushNamed(context, ProfileView.routeName, arguments: currentUser.id);
+                    },
                   ),
                   SizedBox(
                     width: 10,
