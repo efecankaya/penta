@@ -2,10 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:penta/util/colors.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-TextStyle? kHeadingTextStyle = GoogleFonts.lato(
+final kHeadingTextStyle = GoogleFonts.lato(
   color: AppColors.headingColor,
   fontWeight: FontWeight.w400,
   fontSize: 34.0,
+);
+
+final kHeading2TextStyle = GoogleFonts.lato(
+  color: AppColors.headingColor,
+  fontWeight: FontWeight.w400,
+  fontSize: 28.0,
 );
 
 final kButtonLightTextStyle = GoogleFonts.lato(

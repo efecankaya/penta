@@ -63,7 +63,7 @@ class _PostViewState extends State<PostView> {
               ),
             ),
             Hero(
-              tag: "${args.post.id}",
+              tag: "${args.screenId}-${args.post.image}",
               child: Image.asset(
                 args.post.image,
                 fit: BoxFit.cover,
@@ -180,8 +180,9 @@ class _PostViewState extends State<PostView> {
 
 class PostArguments {
   final Post post;
+  final int screenId;
 
-  PostArguments(this.post);
+  PostArguments(this.post, this.screenId);
 }
 
 Widget getTopics(List<String> strings) {

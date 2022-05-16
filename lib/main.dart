@@ -21,6 +21,12 @@ class Penta extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: "Penta",
+      onGenerateRoute: (settings) {
+        if(settings.name == ProfileView.routeName) {
+          int userId = settings.arguments as int? ?? 0;
+          return MaterialPageRoute(builder: (_) => ProfileView(userId: userId));
+        }
+      },
       routes: {
         '/': (context) => MainView(),
         SignUpView.routeName: (context) => SignUpView(),
@@ -53,7 +59,7 @@ class _MainViewState extends State<MainView> {
     SearchView(),
     UploadView(),
     MessagesView(),
-    ProfileView(),
+    ProfileView(userId: 0),
   ];
 
   @override
