@@ -22,25 +22,24 @@ class StaggeredGridPosts extends StatefulWidget {
 class _StaggeredGridPostsState extends State<StaggeredGridPosts> {
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: StaggeredGrid.count(
-        crossAxisCount: 2,
-        children: List.generate(
-          13,
-          (int i) {
-            if(widget.username == null) {
+    return StaggeredGrid.count(
+      crossAxisCount: 2,
+      axisDirection: AxisDirection.down,
+      children: List.generate(
+        13,
+            (int i) {
+          if(widget.username == null) {
+            return _Tile(i, widget.screenId);
+          }
+          else {
+            if(DUMMY_POSTS[i].username == widget.username) {
               return _Tile(i, widget.screenId);
             }
             else {
-              if(DUMMY_POSTS[i].username == widget.username) {
-                return _Tile(i, widget.screenId);
-              }
-              else {
-                return SizedBox.shrink();
-              }
+              return SizedBox.shrink();
             }
-          },
-        ),
+          }
+        },
       ),
     );
   }

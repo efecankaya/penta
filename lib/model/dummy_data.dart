@@ -140,7 +140,7 @@ final DUMMY_USERS = [
 final DUMMY_POSTS = [
   Post(
     id: 0,
-    username: "user0",
+    username: "user1",
     date: "01/01/2001",
     likes: 10,
     image: "assets/images/0.jpeg",
@@ -159,7 +159,7 @@ final DUMMY_POSTS = [
   ),
   Post(
     id: 1,
-    username: "user0",
+    username: "user1",
     date: "01/01/2001",
     likes: 10,
     image: "assets/images/1.jpeg",
@@ -178,7 +178,7 @@ final DUMMY_POSTS = [
   ),
   Post(
     id: 2,
-    username: "user1",
+    username: "user2",
     date: "01/01/2001",
     likes: 20,
     image: "assets/images/2.jpeg",
@@ -204,7 +204,7 @@ final DUMMY_POSTS = [
   ),
   Post(
     id: 3,
-    username: "user3",
+    username: "user0",
     date: "01/01/2001",
     likes: 10,
     image: "assets/images/3.jpeg",
@@ -230,7 +230,7 @@ final DUMMY_POSTS = [
   ),
   Post(
     id: 4,
-    username: "user4",
+    username: "user0",
     date: "01/01/2001",
     likes: 10,
     image: "assets/images/4.jpeg",
@@ -303,7 +303,7 @@ final DUMMY_POSTS = [
   ),
   Post(
     id: 6,
-    username: "user6",
+    username: "user0",
     date: "01/01/2001",
     likes: 10,
     image: "assets/images/6.jpeg",
@@ -355,7 +355,7 @@ final DUMMY_POSTS = [
   ),
   Post(
     id: 8,
-    username: "user8",
+    username: "user0",
     date: "01/01/2001",
     likes: 10,
     image: "assets/images/8.jpeg",
@@ -381,7 +381,7 @@ final DUMMY_POSTS = [
   ),
   Post(
     id: 9,
-    username: "user9",
+    username: "user0",
     date: "01/01/2001",
     likes: 10,
     image: "assets/images/9.jpeg",
@@ -407,7 +407,7 @@ final DUMMY_POSTS = [
   ),
   Post(
     id: 10,
-    username: "user10",
+    username: "user0",
     date: "01/01/2001",
     likes: 10,
     image: "assets/images/10.jpeg",
@@ -433,7 +433,7 @@ final DUMMY_POSTS = [
   ),
   Post(
     id: 11,
-    username: "user11",
+    username: "user0",
     date: "01/01/2001",
     likes: 10,
     image: "assets/images/11.jpeg",
@@ -459,7 +459,7 @@ final DUMMY_POSTS = [
   ),
   Post(
     id: 12,
-    username: "user12",
+    username: "user0",
     date: "01/01/2001",
     likes: 10,
     image: "assets/images/12.jpeg",
