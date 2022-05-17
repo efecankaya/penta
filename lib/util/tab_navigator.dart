@@ -14,17 +14,17 @@ class TabNavigator extends StatelessWidget {
   Widget build(BuildContext context) {
     Widget child;
 
-    if (tabItem == "feed")
-      child = FeedView();
-    else if (tabItem == "search")
-      child = SearchView();
-    else if (tabItem == "upload")
-      child = UploadView();
-    else if (tabItem == "messages")
-      child = MessagesView();
-    else
-      child = ProfileView(userId: 0);
-
+    if (tabItem == "feed") {
+      child = const FeedView();
+    } else if (tabItem == "search") {
+      child = const SearchView();
+    } else if (tabItem == "upload") {
+      child = const UploadView();
+    } else if (tabItem == "messages") {
+      child = const MessagesView();
+    } else {
+      child = const ProfileView(userId: 0);
+    }
     return child;
   }
 }

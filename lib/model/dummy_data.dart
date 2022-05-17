@@ -1,9 +1,8 @@
-import 'package:flutter/material.dart';
-
 import 'package:penta/model/comment.dart';
 import 'package:penta/model/post.dart';
 import 'package:penta/model/user.dart';
 
+//This data will get replaced by firebase in the future
 final DUMMY_USERS = [
   User(
     id: 0,
@@ -145,7 +144,8 @@ final DUMMY_POSTS = [
     likes: 10,
     image: "assets/images/0.jpeg",
     location: "Sabanci University",
-    description: "Hello! This is a photo that I just took. It looks really cool.",
+    description:
+        "Hello! This is a photo that I just took. It looks really cool.",
     comments: [
       Comment(
         userId: 1,
@@ -164,7 +164,8 @@ final DUMMY_POSTS = [
     likes: 10,
     image: "assets/images/1.jpeg",
     location: "Sabanci University",
-    description: "Hello! This is a photo that I just took. It looks really cool.",
+    description:
+        "Hello! This is a photo that I just took. It looks really cool.",
     comments: [
       Comment(
         userId: 2,
@@ -183,7 +184,8 @@ final DUMMY_POSTS = [
     likes: 20,
     image: "assets/images/2.jpeg",
     location: "Sabanci University",
-    description: "Hello! This is a photo that I just took. It looks really cool.",
+    description:
+        "Hello! This is a photo that I just took. It looks really cool.",
     comments: [
       Comment(
         userId: 2,
@@ -209,7 +211,8 @@ final DUMMY_POSTS = [
     likes: 10,
     image: "assets/images/3.jpeg",
     location: "Sabanci University",
-    description: "Hello! This is a photo that I just took. It looks really cool.",
+    description:
+        "Hello! This is a photo that I just took. It looks really cool.",
     comments: [
       Comment(
         userId: 2,
@@ -235,7 +238,8 @@ final DUMMY_POSTS = [
     likes: 10,
     image: "assets/images/4.jpeg",
     location: "Sabanci University",
-    description: "Hello! This is a photo that I just took. It looks really cool.",
+    description:
+        "Hello! This is a photo that I just took. It looks really cool.",
     comments: [
       Comment(
         userId: 2,
@@ -268,7 +272,8 @@ final DUMMY_POSTS = [
     likes: 10,
     image: "assets/images/5.jpeg",
     location: "Sabanci University",
-    description: "Hello! This is a photo that I just took. It looks really cool.",
+    description:
+        "Hello! This is a photo that I just took. It looks really cool.",
     comments: [
       Comment(
         userId: 1,
@@ -308,7 +313,8 @@ final DUMMY_POSTS = [
     likes: 10,
     image: "assets/images/6.jpeg",
     location: "Sabanci University",
-    description: "Hello! This is a photo that I just took. It looks really cool.",
+    description:
+        "Hello! This is a photo that I just took. It looks really cool.",
     comments: [
       Comment(
         userId: 5,
@@ -334,7 +340,8 @@ final DUMMY_POSTS = [
     likes: 10,
     image: "assets/images/7.jpeg",
     location: "Sabanci University",
-    description: "Hello! This is a photo that I just took. It looks really cool.",
+    description:
+        "Hello! This is a photo that I just took. It looks really cool.",
     comments: [
       Comment(
         userId: 1,
@@ -360,7 +367,8 @@ final DUMMY_POSTS = [
     likes: 10,
     image: "assets/images/8.jpeg",
     location: "Sabanci University",
-    description: "Hello! This is a photo that I just took. It looks really cool.",
+    description:
+        "Hello! This is a photo that I just took. It looks really cool.",
     comments: [
       Comment(
         userId: 1,
@@ -386,7 +394,8 @@ final DUMMY_POSTS = [
     likes: 10,
     image: "assets/images/9.jpeg",
     location: "Sabanci University",
-    description: "Hello! This is a photo that I just took. It looks really cool.",
+    description:
+        "Hello! This is a photo that I just took. It looks really cool.",
     comments: [
       Comment(
         userId: 1,
@@ -412,7 +421,8 @@ final DUMMY_POSTS = [
     likes: 10,
     image: "assets/images/10.jpeg",
     location: "Sabanci University",
-    description: "Hello! This is a photo that I just took. It looks really cool.",
+    description:
+        "Hello! This is a photo that I just took. It looks really cool.",
     comments: [
       Comment(
         userId: 1,
@@ -438,7 +448,8 @@ final DUMMY_POSTS = [
     likes: 10,
     image: "assets/images/11.jpeg",
     location: "Sabanci University",
-    description: "Hello! This is a photo that I just took. It looks really cool.",
+    description:
+        "Hello! This is a photo that I just took. It looks really cool.",
     comments: [
       Comment(
         userId: 1,
@@ -464,7 +475,8 @@ final DUMMY_POSTS = [
     likes: 10,
     image: "assets/images/12.jpeg",
     location: "Sabanci University",
-    description: "Hello! This is a photo that I just took. It looks really cool.",
+    description:
+        "Hello! This is a photo that I just took. It looks really cool.",
     comments: [
       Comment(
         userId: 1,

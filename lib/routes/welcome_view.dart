@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:penta/routes/login_view.dart';
 import 'package:penta/routes/signup_view.dart';
-import 'package:penta/routes/feed_view.dart';
 import 'package:penta/util/colors.dart';
 import 'package:penta/util/dimensions.dart';
 import 'package:penta/util/styles.dart';
@@ -32,7 +31,7 @@ class WelcomeView extends StatelessWidget {
                   text: TextSpan(
                     text: "Welcome.\n",
                     style: kHeadingTextStyle,
-                    children: <TextSpan>[
+                    children: const <TextSpan>[
                       TextSpan(
                         text: "Get started by logging\ninto your account.",
                         style: TextStyle(
@@ -77,7 +76,7 @@ class WelcomeView extends StatelessWidget {
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 20.0,
                         ),
                         Expanded(
@@ -106,7 +105,7 @@ class WelcomeView extends StatelessWidget {
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20.0,
                     ),
                     Row(
@@ -132,7 +131,7 @@ class WelcomeView extends StatelessWidget {
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20.0,
                     ),
                     Row(
@@ -146,7 +145,7 @@ class WelcomeView extends StatelessWidget {
                             text: TextSpan(
                               text: "Existing user?  ",
                               style: kLabelStyle,
-                              children: <TextSpan>[
+                              children: const <TextSpan>[
                                 TextSpan(
                                   text: "Login now",
                                   style: TextStyle(

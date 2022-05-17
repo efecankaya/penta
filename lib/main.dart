@@ -2,17 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:penta/routes/login_view.dart';
 import 'package:penta/routes/signup_view.dart';
 import 'package:penta/routes/welcome_view.dart';
-import 'package:penta/routes/feed_view.dart';
 import 'package:penta/routes/post_view.dart';
-import 'package:penta/routes/search_view.dart';
-import 'package:penta/routes/upload_view.dart';
-import 'package:penta/routes/messages_view.dart';
 import 'package:penta/routes/profile_view.dart';
 import 'package:penta/util/colors.dart';
 import 'package:penta/util/tab_navigator.dart';
+import 'package:penta/model/post.dart';
 
 void main() {
-  runApp(Penta());
+  runApp(const Penta());
 }
 
 class Penta extends StatelessWidget {
@@ -23,7 +20,8 @@ class Penta extends StatelessWidget {
     return MaterialApp(
       title: "Penta",
       routes: {
-        '/': (context) => MainView(),
+        '/': (context) => const MainView(),
+        //This view should be accessible when logged in.
         SignUpView.routeName: (context) => SignUpView(),
         LoginView.routeName: (context) => LoginView(),
       },
@@ -32,7 +30,7 @@ class Penta extends StatelessWidget {
           primary: AppColors.quaternary,
           secondary: AppColors.primary,
         ),
-        primaryIconTheme: IconThemeData(color: AppColors.primary),
+        primaryIconTheme: const IconThemeData(color: AppColors.primary),
       ),
     );
   }
@@ -46,10 +44,12 @@ class MainView extends StatefulWidget {
 }
 
 class _MainViewState extends State<MainView> {
+  //These are for the bottom navigation bar (and for it to be persistent).
+  //Each tab should have its own navigation stack.
   int currentIndex = 0;
   String currentPage = "feed";
   List<String> pageKeys = ["feed", "search", "upload", "messages", "profile"];
-  Map<String, GlobalKey<NavigatorState>> _navigatorKeys = {
+  final Map<String, GlobalKey<NavigatorState>> _navigatorKeys = {
     "feed": GlobalKey<NavigatorState>(),
     "search": GlobalKey<NavigatorState>(),
     "upload": GlobalKey<NavigatorState>(),
@@ -57,6 +57,9 @@ class _MainViewState extends State<MainView> {
     "profile": GlobalKey<NavigatorState>(),
   };
 
+  //If user taps on the tab that they are already on,
+  //that tab's stack should be popped until the first element.
+  //Else, select that tab.
   void _selectTab(String tabItem, int index) {
     if (tabItem == currentPage) {
       _navigatorKeys[tabItem]!.currentState!.popUntil((route) => route.isFirst);
@@ -68,27 +71,34 @@ class _MainViewState extends State<MainView> {
     }
   }
 
+  //Offstage is used so that the states are preserved if the page goes out of view.
   Widget _buildOffstageNavigator(String tabItem) {
     return Offstage(
+      //Hide the page if that page's tab is not selected.
       offstage: currentPage != tabItem,
       child: Navigator(
         key: _navigatorKeys[tabItem],
+        //New navigation routes should be added inside onGenerateRoute
         onGenerateRoute: (settings) {
           if (settings.name == "/") {
+            //Base of the navigation stack of the current tab.
             return MaterialPageRoute(
+              //A view should be returned based on the tabItem that is selected.
               builder: (_) => TabNavigator(
                 tabItem: tabItem,
               ),
             );
-          }
-          if (settings.name == ProfileView.routeName) {
+          } else if (settings.name == ProfileView.routeName) {
+            //Add a user's profile view to this tab's navigation stack.
             int userId = settings.arguments as int? ?? 0;
             return MaterialPageRoute(
                 builder: (_) => ProfileView(userId: userId));
-          }
-          if (settings.name == PostView.routeName) {
-            var args = settings.arguments as PostArguments;
-            return MaterialPageRoute(builder: (_) => PostView(args));
+          } else if (settings.name == PostView.routeName) {
+            //Add a post view to this tab's navigation stack.
+            var currentPost = settings.arguments as Post;
+            return MaterialPageRoute(builder: (_) => PostView(currentPost));
+          } else {
+            return null;
           }
         },
       ),
@@ -97,10 +107,12 @@ class _MainViewState extends State<MainView> {
 
   @override
   Widget build(BuildContext context) {
+    //TODO: implement a way to keep track of the loggedIn variable
+    //Currently, loggedIn is set to true when Login or Sign up buttons are pressed.
     bool loggedIn =
         ModalRoute.of(context)!.settings.arguments as bool? ?? false;
     return (!loggedIn)
-        ? WelcomeView()
+        ? const WelcomeView()
         : WillPopScope(
             child: Scaffold(
               body: Stack(
@@ -122,7 +134,7 @@ class _MainViewState extends State<MainView> {
                 onTap: (index) {
                   _selectTab(pageKeys[index], index);
                 },
-                items: [
+                items: const [
                   BottomNavigationBarItem(
                     icon: Icon(Icons.home),
                     label: "Home",
@@ -146,13 +158,18 @@ class _MainViewState extends State<MainView> {
                 ],
               ),
             ),
+
+            //This is for the navigation bar at the bottom of the android phone.
+            //If the current tab has no previous elements in the navigation stack,
+            //going back will result in going to the feed page.
+            //If user is already on the feed page and there are no previous elements,
+            //then going back will exit the app.
             onWillPop: () async {
               final isFirstRouteInCurrentTab =
                   !await _navigatorKeys[currentPage]!.currentState!.maybePop();
               if (isFirstRouteInCurrentTab) {
                 if (currentPage != "feed") {
-                  _selectTab("feed", 1);
-
+                  _selectTab("feed", 0);
                   return false;
                 }
               }

@@ -5,5 +5,6 @@ class Dimen {
   static const double regularMargin = 8.0;
 
   static get regularParentPadding => const EdgeInsets.all(parentMargin);
+
   static get regularPadding => const EdgeInsets.all(regularMargin);
 }

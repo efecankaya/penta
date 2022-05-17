@@ -53,5 +53,5 @@ final kSmallLabelStyle = GoogleFonts.lato(
 
 final kTopicsLabelStyle = GoogleFonts.lato(
   fontSize: 17.0,
-  color: Color(0xFF3F729B),
+  color: const Color(0xFF3F729B),
 );

@@ -14,19 +14,20 @@ class PostView extends StatefulWidget {
 
   static const String routeName = '/post';
 
-  final PostArguments args;
+  //This contains the post data.
+  final Post currentPost;
 
-  PostView(this.args);
+  const PostView(this.currentPost);
 }
 
 class _PostViewState extends State<PostView> {
   @override
   Widget build(BuildContext context) {
-    final args = widget.args;
+    final currentPost = widget.currentPost;
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          args.post.image,
+          currentPost.image,
           style: kAppBarTitleTextStyle,
         ),
         backgroundColor: AppColors.primary,
@@ -38,7 +39,7 @@ class _PostViewState extends State<PostView> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10),
               child: Row(
                 children: [
                   GestureDetector(
@@ -49,107 +50,108 @@ class _PostViewState extends State<PostView> {
                         fit: BoxFit.fitHeight,
                       ),
                     ),
+                    //Find user based on username, push that user's profile to the navigation stack.
+                    //Find method subject to change.
                     onTap: () {
                       User currentUser = DUMMY_USERS
                           .where((element) =>
-                              element.username == args.post.username)
+                              element.username == currentPost.username)
                           .toList()[0];
                       Navigator.pushNamed(context, ProfileView.routeName,
                           arguments: currentUser.id);
                     },
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 10,
                   ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        args.post.username,
+                        currentPost.username,
                         style: kBoldLabelStyle,
                       ),
                       Text(
-                        args.post.location,
+                        currentPost.location,
                         style: kSmallLabelStyle,
                       ),
                     ],
                   ),
-                  Spacer(),
-                  Icon(Icons.more_horiz),
+                  const Spacer(),
+                  const Icon(Icons.more_horiz),
                 ],
               ),
             ),
-            Hero(
-              tag: "${args.screenId}-${args.post.image}",
-              child: Image.asset(
-                args.post.image,
-                fit: BoxFit.cover,
-                width: screenWidth(context),
-                alignment: Alignment.center,
-              ),
+            Image.asset(
+              currentPost.image,
+              fit: BoxFit.cover,
+              width: screenWidth(context),
+              alignment: Alignment.center,
             ),
             Container(
-              padding: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10),
               child: Row(
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.favorite_border,
                     size: 30,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 5,
                   ),
                   Text(
-                    "${args.post.likes} likes",
+                    "${currentPost.likes} likes",
                     style: kLabelStyle,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 15,
                   ),
-                  Icon(
+                  //TODO: implement share functionality
+                  const Icon(
                     Icons.share_outlined,
                     size: 30,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 5,
                   ),
                   Text(
                     "Share",
                     style: kLabelStyle,
                   ),
-                  Spacer(),
+                  const Spacer(),
+                  //TODO: format date. example: 2 days ago.
                   Text(
-                    args.post.date,
+                    currentPost.date,
                     style: kLabelStyle,
                   ),
                 ],
               ),
             ),
             Container(
-              padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
               child: RichText(
                 text: TextSpan(
                   style: kLabelStyle,
                   children: <TextSpan>[
                     TextSpan(
-                      text: args.post.username + "  ",
-                      style: TextStyle(
+                      text: currentPost.username + "  ",
+                      style: const TextStyle(
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     TextSpan(
-                      text: args.post.description,
+                      text: currentPost.description,
                     ),
                   ],
                 ),
               ),
             ),
             Container(
-              padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-              child: getTopics(args.post.topics),
+              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+              child: getTopics(currentPost.topics),
             ),
             Container(
-              padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
               child: Row(
                 children: [
                   CircleAvatar(
@@ -160,16 +162,17 @@ class _PostViewState extends State<PostView> {
                     ),
                     radius: 15,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 5,
                   ),
                   Expanded(
                     child: TextField(
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         border: OutlineInputBorder(),
                         hintText: 'Add a comment...',
                         isDense: true,
-                        contentPadding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                        contentPadding:
+                            const EdgeInsets.fromLTRB(10, 10, 10, 0),
                       ),
                       style: kLabelStyle,
                     ),
@@ -178,14 +181,14 @@ class _PostViewState extends State<PostView> {
               ),
             ),
             Container(
-              padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
               child: Text(
                 "View all comments...",
                 style: kFadedLabelStyle,
               ),
             ),
-            getComments(args.post.comments),
-            SizedBox(
+            getComments(currentPost.comments),
+            const SizedBox(
               height: 200,
             ),
           ],
@@ -195,13 +198,7 @@ class _PostViewState extends State<PostView> {
   }
 }
 
-class PostArguments {
-  final Post post;
-  final int screenId;
-
-  PostArguments(this.post, this.screenId);
-}
-
+//TODO: implement tap function for topics.
 Widget getTopics(List<String> strings) {
   var list = <Widget>[];
   for (var i = 0; i < strings.length; i++) {
@@ -213,6 +210,7 @@ Widget getTopics(List<String> strings) {
   return Row(children: list);
 }
 
+//Returns every comment as a Column widget
 Widget getComments(List<Comment> comments) {
   var list = <Widget>[];
   for (var i = 0; i < comments.length; i++) {
@@ -220,14 +218,14 @@ Widget getComments(List<Comment> comments) {
       Row(
         children: [
           Container(
-            padding: EdgeInsets.symmetric(vertical: 2, horizontal: 10),
+            padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 10),
             child: RichText(
               text: TextSpan(
                 style: kLabelStyle,
                 children: <TextSpan>[
                   TextSpan(
                     text: "${comments[i].username}  ",
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontWeight: FontWeight.bold,
                     ),
                   ),

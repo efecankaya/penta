@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:penta/routes/feed_view.dart';
 import 'package:penta/util/colors.dart';
 import 'package:penta/util/styles.dart';
 import 'package:penta/util/screenSizes.dart';
@@ -42,14 +41,14 @@ class _LoginViewState extends State<LoginView> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 5),
                       width: screenWidth(context, dividedBy: 1.25),
                       decoration: BoxDecoration(
                         color: AppColors.primaryLight,
                         borderRadius: BorderRadius.circular(29),
                       ),
-                      child: TextField(
+                      child: const TextField(
                         decoration: InputDecoration(
                           hintText: "Your Email",
                           icon: Icon(
@@ -63,21 +62,21 @@ class _LoginViewState extends State<LoginView> {
                     ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20.0,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 5),
                       width: screenWidth(context, dividedBy: 1.25),
                       decoration: BoxDecoration(
                         color: AppColors.primaryLight,
                         borderRadius: BorderRadius.circular(29),
                       ),
-                      child: TextField(
+                      child: const TextField(
                         obscureText: true,
                         decoration: InputDecoration(
                           hintText: "Password",
@@ -92,7 +91,7 @@ class _LoginViewState extends State<LoginView> {
                     ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20.0,
                 ),
                 Row(
@@ -107,7 +106,7 @@ class _LoginViewState extends State<LoginView> {
                             primary: AppColors.primary,
                           ),
                           child: Padding(
-                            padding: EdgeInsets.symmetric(vertical: 16),
+                            padding: const EdgeInsets.symmetric(vertical: 16),
                             child: Text(
                               "Login",
                               style: kButtonDarkTextStyle,
@@ -118,7 +117,8 @@ class _LoginViewState extends State<LoginView> {
                               context,
                               "/",
                               (r) => false,
-                              arguments: true,
+                              arguments:
+                                  true, //This argument is for making the loggedIn variable true.
                             );
                           },
                         ),

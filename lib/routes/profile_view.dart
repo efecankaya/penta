@@ -15,23 +15,26 @@ class ProfileView extends StatefulWidget {
   static const String routeName = '/profile';
 }
 
-class _ProfileViewState extends State<ProfileView> with SingleTickerProviderStateMixin {
+class _ProfileViewState extends State<ProfileView>
+    with SingleTickerProviderStateMixin {
   final List<Widget> myTabs = [
-    Tab(text: "Posts"),
-    Tab(text: "Locations"),
+    const Tab(text: "Posts"),
+    const Tab(text: "Locations"),
   ];
   late TabController _tabController;
   late ScrollController _scrollController;
   bool fixedScroll = false;
 
+  //Builds the general information part of the page. (Everything above the tabs)
   Widget _buildCarousel() {
     int userId = widget.userId;
+    //Get the user from its id as a User object. Find method subject to change.
     User currentUser =
         DUMMY_USERS.where((element) => element.id == userId).toList()[0];
     return Column(
       children: [
         Padding(
-          padding: EdgeInsets.all(10),
+          padding: const EdgeInsets.all(10),
           child: Column(
             children: [
               Row(
@@ -39,7 +42,7 @@ class _ProfileViewState extends State<ProfileView> with SingleTickerProviderStat
                 children: [
                   Expanded(
                     child: Padding(
-                      padding: EdgeInsets.only(left: 32),
+                      padding: const EdgeInsets.only(left: 32),
                       child: CircleAvatar(
                         backgroundColor: AppColors.primary,
                         radius: 80,
@@ -50,28 +53,28 @@ class _ProfileViewState extends State<ProfileView> with SingleTickerProviderStat
                       ),
                     ),
                   ),
-                  Icon(
+                  const Icon(
                     Icons.more_horiz,
                     size: 32,
                   )
                 ],
               ),
               Container(
-                padding: EdgeInsets.only(top: 10),
+                padding: const EdgeInsets.only(top: 10),
                 child: Text(
                   currentUser.name,
                   style: kHeading2TextStyle,
                 ),
               ),
               Container(
-                padding: EdgeInsets.only(top: 10),
+                padding: const EdgeInsets.only(top: 10),
                 child: Text(
                   currentUser.bio,
                   style: kLabelStyle,
                 ),
               ),
               Container(
-                padding: EdgeInsets.only(top: 10),
+                padding: const EdgeInsets.only(top: 10),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -79,7 +82,7 @@ class _ProfileViewState extends State<ProfileView> with SingleTickerProviderStat
                       "${currentUser.followers.length} followers",
                       style: kBoldLabelStyle,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 12,
                     ),
                     Text(
@@ -99,10 +102,7 @@ class _ProfileViewState extends State<ProfileView> with SingleTickerProviderStat
   @override
   void initState() {
     _scrollController = ScrollController();
-    _scrollController.addListener(_scrollListener);
     _tabController = TabController(length: 2, vsync: this);
-    _tabController.addListener(_smoothScrollToTop);
-
     super.initState();
   }
 
@@ -113,37 +113,21 @@ class _ProfileViewState extends State<ProfileView> with SingleTickerProviderStat
     super.dispose();
   }
 
-  _scrollListener() {
-    if (fixedScroll) {
-      _scrollController.jumpTo(0);
-    }
-  }
-
-  _smoothScrollToTop() {
-    _scrollController.animateTo(
-      0,
-      duration: Duration(microseconds: 300),
-      curve: Curves.ease,
-    );
-
-    setState(() {
-      //fixedScroll = _tabController.index == 2;
-    });
-  }
-
+  //Get the posts of this user
   _buildTabContext(String username) => Container(
-    child: ListView.builder(
-      physics: const ClampingScrollPhysics(),
-      itemCount: 1,
-      itemBuilder: (BuildContext context, int index) {
-        return StaggeredGridPosts.user(1, username);
-      },
-    ),
-  );
+        child: ListView.builder(
+          physics: const ClampingScrollPhysics(),
+          itemCount: 1,
+          itemBuilder: (BuildContext context, int index) {
+            return StaggeredGridPosts(username: username);
+          },
+        ),
+      );
 
   @override
   Widget build(BuildContext context) {
     int userId = widget.userId;
+    //Get user by their id. Find method subject to change.
     User currentUser =
         DUMMY_USERS.where((element) => element.id == userId).toList()[0];
     return DefaultTabController(
@@ -151,7 +135,7 @@ class _ProfileViewState extends State<ProfileView> with SingleTickerProviderStat
       child: Scaffold(
         appBar: AppBar(
           title: Text(
-            '${currentUser.username}',
+            currentUser.username,
             style: kAppBarTitleTextStyle,
           ),
           backgroundColor: AppColors.primary,
@@ -159,7 +143,6 @@ class _ProfileViewState extends State<ProfileView> with SingleTickerProviderStat
           elevation: 0.0,
         ),
         body: NestedScrollView(
-
           controller: _scrollController,
           headerSliverBuilder: (context, value) {
             return [
@@ -184,7 +167,8 @@ class _ProfileViewState extends State<ProfileView> with SingleTickerProviderStat
               controller: _tabController,
               children: [
                 _buildTabContext(currentUser.username),
-                Text("The locations will go here"),
+                //TODO: implement locations
+                const Text("The locations will go here"),
               ],
             ),
           ),

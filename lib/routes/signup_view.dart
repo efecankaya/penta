@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:penta/routes/feed_view.dart';
 import 'package:penta/util/colors.dart';
 import 'package:penta/util/styles.dart';
 import 'package:penta/util/screenSizes.dart';
@@ -42,14 +41,14 @@ class _SignUpViewState extends State<SignUpView> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 5),
                       width: screenWidth(context, dividedBy: 1.25),
                       decoration: BoxDecoration(
                         color: AppColors.primaryLight,
                         borderRadius: BorderRadius.circular(29),
                       ),
-                      child: TextField(
+                      child: const TextField(
                         decoration: InputDecoration(
                           hintText: "Username",
                           icon: Icon(
@@ -63,21 +62,21 @@ class _SignUpViewState extends State<SignUpView> {
                     ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20.0,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 5),
                       width: screenWidth(context, dividedBy: 1.25),
                       decoration: BoxDecoration(
                         color: AppColors.primaryLight,
                         borderRadius: BorderRadius.circular(29),
                       ),
-                      child: TextField(
+                      child: const TextField(
                         decoration: InputDecoration(
                           hintText: "Your Email",
                           icon: Icon(
@@ -91,21 +90,21 @@ class _SignUpViewState extends State<SignUpView> {
                     ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20.0,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 5),
                       width: screenWidth(context, dividedBy: 1.25),
                       decoration: BoxDecoration(
                         color: AppColors.primaryLight,
                         borderRadius: BorderRadius.circular(29),
                       ),
-                      child: TextField(
+                      child: const TextField(
                         obscureText: true,
                         decoration: InputDecoration(
                           hintText: "Password",
@@ -120,7 +119,7 @@ class _SignUpViewState extends State<SignUpView> {
                     ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20.0,
                 ),
                 Row(
@@ -135,7 +134,7 @@ class _SignUpViewState extends State<SignUpView> {
                             primary: AppColors.primary,
                           ),
                           child: Padding(
-                            padding: EdgeInsets.symmetric(vertical: 16),
+                            padding: const EdgeInsets.symmetric(vertical: 16),
                             child: Text(
                               "Sign Up",
                               style: kButtonDarkTextStyle,
@@ -146,7 +145,8 @@ class _SignUpViewState extends State<SignUpView> {
                               context,
                               "/",
                               (r) => false,
-                              arguments: true,
+                              arguments:
+                                  true, //This argument is for making the loggedIn variable true.
                             );
                           },
                         ),

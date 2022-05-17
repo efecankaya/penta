@@ -25,7 +25,7 @@ class _FeedViewState extends State<FeedView> {
         elevation: 0.0,
       ),
       body: SingleChildScrollView(
-        child: StaggeredGridPosts(0),
+        child: StaggeredGridPosts(),
       ),
     );
   }
