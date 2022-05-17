@@ -13,12 +13,16 @@ class PostView extends StatefulWidget {
   _PostViewState createState() => _PostViewState();
 
   static const String routeName = '/post';
+
+  final PostArguments args;
+
+  PostView(this.args);
 }
 
 class _PostViewState extends State<PostView> {
   @override
   Widget build(BuildContext context) {
-    final args = ModalRoute.of(context)!.settings.arguments as PostArguments;
+    final args = widget.args;
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -46,8 +50,12 @@ class _PostViewState extends State<PostView> {
                       ),
                     ),
                     onTap: () {
-                      User currentUser = DUMMY_USERS.where((element) => element.username == args.post.username).toList()[0];
-                      Navigator.pushNamed(context, ProfileView.routeName, arguments: currentUser.id);
+                      User currentUser = DUMMY_USERS
+                          .where((element) =>
+                              element.username == args.post.username)
+                          .toList()[0];
+                      Navigator.pushNamed(context, ProfileView.routeName,
+                          arguments: currentUser.id);
                     },
                   ),
                   SizedBox(
