@@ -7,6 +7,7 @@ import 'package:penta/routes/profile_view.dart';
 import 'package:penta/util/colors.dart';
 import 'package:penta/util/tab_navigator.dart';
 import 'package:penta/model/post.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   runApp(const Penta());
@@ -44,6 +45,8 @@ class MainView extends StatefulWidget {
 }
 
 class _MainViewState extends State<MainView> {
+  bool? loggedIn;
+
   //These are for the bottom navigation bar (and for it to be persistent).
   //Each tab should have its own navigation stack.
   int currentIndex = 0;
@@ -105,13 +108,30 @@ class _MainViewState extends State<MainView> {
     );
   }
 
+  Future setLoggedIn(bool loggedIn) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('loggedIn', loggedIn);
+  }
+
+  Future getLoggedIn() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      loggedIn = prefs.getBool('loggedIn');
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    //TODO: implement a way to keep track of the loggedIn variable
-    //Currently, loggedIn is set to true when Login or Sign up buttons are pressed.
-    bool loggedIn =
-        ModalRoute.of(context)!.settings.arguments as bool? ?? false;
-    return (!loggedIn)
+    //Get loggedIn info. If it hasn't been set, set it to false via shared preferences.
+    getLoggedIn().whenComplete(() async {
+      if (loggedIn == null) {
+        loggedIn = false;
+        setLoggedIn(false);
+      }
+    });
+    //If loggedIn is null or false, return welcome view.
+    bool l = loggedIn ?? false;
+    return (!l)
         ? const WelcomeView()
         : WillPopScope(
             child: Scaffold(

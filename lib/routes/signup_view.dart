@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:penta/util/colors.dart';
 import 'package:penta/util/styles.dart';
 import 'package:penta/util/screenSizes.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SignUpView extends StatefulWidget {
   @override
@@ -140,7 +141,10 @@ class _SignUpViewState extends State<SignUpView> {
                               style: kButtonDarkTextStyle,
                             ),
                           ),
-                          onPressed: () {
+                          onPressed: () async {
+                            final SharedPreferences prefs =
+                                await SharedPreferences.getInstance();
+                            prefs.setBool("loggedIn", true);
                             Navigator.pushNamedAndRemoveUntil(
                               context,
                               "/",
