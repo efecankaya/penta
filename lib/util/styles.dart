@@ -55,3 +55,14 @@ final kTopicsLabelStyle = GoogleFonts.lato(
   fontSize: 17.0,
   color: const Color(0xFF3F729B),
 );
+
+final kHintLabelStyle = GoogleFonts.lato(
+  color: AppColors.primary,
+);
+
+final kErrorLabelStyle = GoogleFonts.lato(
+  fontSize: 14.0,
+  color: Colors.red,
+);
+
+
