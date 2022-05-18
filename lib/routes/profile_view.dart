@@ -4,6 +4,7 @@ import 'package:penta/util/styles.dart';
 import 'package:penta/model/user.dart';
 import 'package:penta/model/dummy_data.dart';
 import 'package:penta/ui/staggered_grid_posts.dart';
+import 'package:penta/ui/popup_menu.dart';
 
 class ProfileView extends StatefulWidget {
   final int userId;
@@ -53,9 +54,31 @@ class _ProfileViewState extends State<ProfileView>
                       ),
                     ),
                   ),
-                  const Icon(
-                    Icons.more_horiz,
-                    size: 32,
+                  PopupMenu(
+                    menuList: [
+                      PopupMenuItem(
+                        child: ListTile(
+                          leading: Icon(Icons.settings),
+                          title: Text(
+                            "Settings",
+                            style: kLabelStyle,
+                          ),
+                        ),
+                      ),
+                      PopupMenuItem(
+                        child: ListTile(
+                          leading: Icon(Icons.exit_to_app),
+                          title: Text(
+                            "Log out",
+                            style: kLabelStyle,
+                          ),
+                        ),
+                      ),
+                    ],
+                    icon: Icon(
+                      Icons.more_horiz,
+                      size: 32,
+                    ),
                   )
                 ],
               ),
