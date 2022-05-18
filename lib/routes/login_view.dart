@@ -16,6 +16,7 @@ class _LoginViewState extends State<LoginView> {
   final _formKey = GlobalKey<FormState>();
   String email = "";
   String password = "";
+
   /*
   Future<void> _showDialog(String title, String message) async {
     return showDialog(
@@ -140,11 +141,11 @@ class _LoginViewState extends State<LoginView> {
                             border: InputBorder.none,
                           ),
                           validator: (value) {
-                            if(value != null){
-                              if(value.isEmpty) {
+                            if (value != null) {
+                              if (value.isEmpty) {
                                 return 'Cannot leave password empty';
                               }
-                              if(value.length < 6) {
+                              if (value.length < 6) {
                                 return 'Password too short';
                               }
                             }
@@ -178,16 +179,15 @@ class _LoginViewState extends State<LoginView> {
                               ),
                             ),
                             onPressed: () async {
-                              if(_formKey.currentState!.validate()) {
+                              if (_formKey.currentState!.validate()) {
                                 _formKey.currentState!.save();
-                                final SharedPreferences prefs = await SharedPreferences.getInstance();
+                                final SharedPreferences prefs =
+                                    await SharedPreferences.getInstance();
                                 prefs.setBool("loggedIn", true);
                                 Navigator.pushNamedAndRemoveUntil(
                                   context,
                                   "/",
-                                      (r) => false,
-                                  arguments:
-                                  true, //This argument is for making the loggedIn variable true.
+                                  (r) => false,
                                 );
                               } else {
                                 //_showDialog('Error', 'Please input a valid email');

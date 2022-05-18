@@ -69,11 +69,11 @@ class _SignUpViewState extends State<SignUpView> {
                             border: InputBorder.none,
                           ),
                           validator: (value) {
-                            if(value != null){
-                              if(value.isEmpty) {
+                            if (value != null) {
+                              if (value.isEmpty) {
                                 return 'Cannot leave username empty';
                               }
-                              if(value.length < 6) {
+                              if (value.length < 6) {
                                 return 'Username too short';
                               }
                             }
@@ -111,11 +111,11 @@ class _SignUpViewState extends State<SignUpView> {
                             border: InputBorder.none,
                           ),
                           validator: (value) {
-                            if(value != null){
-                              if(value.isEmpty) {
+                            if (value != null) {
+                              if (value.isEmpty) {
                                 return 'Cannot leave e-mail empty';
                               }
-                              if(!EmailValidator.validate(value)) {
+                              if (!EmailValidator.validate(value)) {
                                 return 'Please enter a valid e-mail address';
                               }
                             }
@@ -156,11 +156,11 @@ class _SignUpViewState extends State<SignUpView> {
                             border: InputBorder.none,
                           ),
                           validator: (value) {
-                            if(value != null){
-                              if(value.isEmpty) {
+                            if (value != null) {
+                              if (value.isEmpty) {
                                 return 'Cannot leave password empty';
                               }
-                              if(value.length < 6) {
+                              if (value.length < 6) {
                                 return 'Password too short';
                               }
                             }
@@ -194,17 +194,15 @@ class _SignUpViewState extends State<SignUpView> {
                               ),
                             ),
                             onPressed: () async {
-                              if(_formKey.currentState!.validate()) {
+                              if (_formKey.currentState!.validate()) {
                                 _formKey.currentState!.save();
                                 final SharedPreferences prefs =
-                                await SharedPreferences.getInstance();
+                                    await SharedPreferences.getInstance();
                                 prefs.setBool("loggedIn", true);
                                 Navigator.pushNamedAndRemoveUntil(
                                   context,
                                   "/",
-                                      (r) => false,
-                                  arguments:
-                                  true, //This argument is for making the loggedIn variable true.
+                                  (r) => false,
                                 );
                               }
                             },

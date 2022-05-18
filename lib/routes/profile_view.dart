@@ -5,6 +5,7 @@ import 'package:penta/model/user.dart';
 import 'package:penta/model/dummy_data.dart';
 import 'package:penta/ui/staggered_grid_posts.dart';
 import 'package:penta/ui/popup_menu.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileView extends StatefulWidget {
   final int userId;
@@ -24,7 +25,6 @@ class _ProfileViewState extends State<ProfileView>
   ];
   late TabController _tabController;
   late ScrollController _scrollController;
-  bool fixedScroll = false;
 
   //Builds the general information part of the page. (Everything above the tabs)
   Widget _buildCarousel() {
@@ -67,11 +67,20 @@ class _ProfileViewState extends State<ProfileView>
                       ),
                       PopupMenuItem(
                         child: ListTile(
-                          leading: Icon(Icons.exit_to_app),
+                          leading: Icon(Icons.logout),
                           title: Text(
                             "Log out",
                             style: kLabelStyle,
                           ),
+                          onTap: () async {
+                            final SharedPreferences prefs =
+                                await SharedPreferences.getInstance();
+                            prefs.setBool("loggedIn", false);
+                            Navigator.pushNamedAndRemoveUntil(
+                                context, "/", (r) => false,
+                                arguments: false);
+                            //Argument false means that user wants to log out
+                          },
                         ),
                       ),
                     ],

@@ -22,7 +22,6 @@ class Penta extends StatelessWidget {
       title: "Penta",
       routes: {
         '/': (context) => const MainView(),
-        //This view should be accessible when logged in.
         SignUpView.routeName: (context) => SignUpView(),
         LoginView.routeName: (context) => LoginView(),
       },
@@ -45,6 +44,7 @@ class MainView extends StatefulWidget {
 }
 
 class _MainViewState extends State<MainView> {
+  bool exit = false;
   bool? loggedIn;
 
   //These are for the bottom navigation bar (and for it to be persistent).
@@ -75,7 +75,7 @@ class _MainViewState extends State<MainView> {
   }
 
   //Offstage is used so that the states are preserved if the page goes out of view.
-  Widget _buildOffstageNavigator(String tabItem) {
+  Widget _buildOffstageNavigator(String tabItem, Function() refresh) {
     return Offstage(
       //Hide the page if that page's tab is not selected.
       offstage: currentPage != tabItem,
@@ -84,6 +84,12 @@ class _MainViewState extends State<MainView> {
         //New navigation routes should be added inside onGenerateRoute
         onGenerateRoute: (settings) {
           if (settings.name == "/") {
+            if (settings.arguments == false) {
+              //User wants to log out
+              exit = true;
+              refresh(); //Update the Main View
+              return null;
+            }
             //Base of the navigation stack of the current tab.
             return MaterialPageRoute(
               //A view should be returned based on the tabItem that is selected.
@@ -108,93 +114,122 @@ class _MainViewState extends State<MainView> {
     );
   }
 
+  //Set loggedIn information via shared preferences
   Future setLoggedIn(bool loggedIn) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool('loggedIn', loggedIn);
   }
 
+  //Get loggedIn information via shared preferences. May be null.
   Future getLoggedIn() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      loggedIn = prefs.getBool('loggedIn');
-    });
+    loggedIn = prefs.getBool('loggedIn');
   }
 
   @override
-  Widget build(BuildContext context) {
-    //Get loggedIn info. If it hasn't been set, set it to false via shared preferences.
-    getLoggedIn().whenComplete(() async {
+  void initState() {
+    super.initState();
+    //Set loggedIn to false if it does not exist in shared preferences.
+    getLoggedIn().whenComplete(() {
       if (loggedIn == null) {
         loggedIn = false;
         setLoggedIn(false);
       }
+      refresh();
     });
-    //If loggedIn is null or false, return welcome view.
-    bool l = loggedIn ?? false;
-    return (!l)
-        ? const WelcomeView()
-        : WillPopScope(
-            child: Scaffold(
-              body: Stack(
-                children: [
-                  _buildOffstageNavigator("feed"),
-                  _buildOffstageNavigator("search"),
-                  _buildOffstageNavigator("upload"),
-                  _buildOffstageNavigator("messages"),
-                  _buildOffstageNavigator("profile"),
-                ],
-              ),
-              bottomNavigationBar: BottomNavigationBar(
-                type: BottomNavigationBarType.fixed,
-                selectedItemColor: AppColors.primary,
-                showSelectedLabels: false,
-                showUnselectedLabels: false,
-                iconSize: 35,
-                currentIndex: currentIndex,
-                onTap: (index) {
-                  _selectTab(pageKeys[index], index);
-                },
-                items: const [
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.home),
-                    label: "Home",
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.search),
-                    label: "Search",
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.add_circle_outline),
-                    label: "Create",
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.mail),
-                    label: "Messages",
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.person),
-                    label: "Profile",
-                  ),
-                ],
-              ),
-            ),
+  }
 
-            //This is for the navigation bar at the bottom of the android phone.
-            //If the current tab has no previous elements in the navigation stack,
-            //going back will result in going to the feed page.
-            //If user is already on the feed page and there are no previous elements,
-            //then going back will exit the app.
-            onWillPop: () async {
-              final isFirstRouteInCurrentTab =
-                  !await _navigatorKeys[currentPage]!.currentState!.maybePop();
-              if (isFirstRouteInCurrentTab) {
-                if (currentPage != "feed") {
-                  _selectTab("feed", 0);
-                  return false;
-                }
-              }
-              return isFirstRouteInCurrentTab;
+  refresh() {
+    setState(() {});
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (exit) {
+      //User pressed log out in the profile view.
+      loggedIn = false;
+      exit = false;
+      return const WelcomeView();
+    }
+
+    //Local non-nullable version of loggedIn
+    bool l = loggedIn ?? false;
+
+    if (loggedIn == null) {
+      //The async function hasn't gotten loggedIn yet.
+      return Scaffold(
+        body: Center(
+          child: Text("Loading..."),
+        ),
+      );
+    } else if (!l) {
+      //If user is not logged in
+      return const WelcomeView();
+    } else {
+      //If user is logged in
+      return WillPopScope(
+        child: Scaffold(
+          body: Stack(
+            children: [
+              _buildOffstageNavigator("feed", refresh),
+              _buildOffstageNavigator("search", refresh),
+              _buildOffstageNavigator("upload", refresh),
+              _buildOffstageNavigator("messages", refresh),
+              _buildOffstageNavigator("profile", refresh),
+            ],
+          ),
+          bottomNavigationBar: BottomNavigationBar(
+            type: BottomNavigationBarType.fixed,
+            selectedItemColor: AppColors.primary,
+            showSelectedLabels: false,
+            showUnselectedLabels: false,
+            iconSize: 35,
+            currentIndex: currentIndex,
+            onTap: (index) {
+              _selectTab(pageKeys[index], index);
             },
-          );
+            items: const [
+              BottomNavigationBarItem(
+                icon: Icon(Icons.home),
+                label: "Home",
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.search),
+                label: "Search",
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.add_circle_outline),
+                label: "Create",
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.mail),
+                label: "Messages",
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.person),
+                label: "Profile",
+              ),
+            ],
+          ),
+        ),
+
+        //This is for the navigation bar at the bottom of the android phone.
+        //If the current tab has no previous elements in the navigation stack,
+        //going back will result in going to the feed page.
+        //If user is already on the feed page and there are no previous elements,
+        //then going back will exit the app.
+        onWillPop: () async {
+          final isFirstRouteInCurrentTab =
+              !await _navigatorKeys[currentPage]!.currentState!.maybePop();
+          if (isFirstRouteInCurrentTab) {
+            if (currentPage != "feed") {
+              _selectTab("feed", 0);
+              return false;
+            }
+          }
+          return isFirstRouteInCurrentTab;
+        },
+      );
+    }
   }
 }
