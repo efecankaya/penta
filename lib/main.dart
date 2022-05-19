@@ -209,7 +209,7 @@ class _MainViewState extends State<MainView> {
                 label: "Create",
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.mail),
+                icon: Icon(Icons.notifications),
                 label: "Messages",
               ),
               BottomNavigationBarItem(
