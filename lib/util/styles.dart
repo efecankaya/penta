@@ -60,9 +60,13 @@ final kHintLabelStyle = GoogleFonts.lato(
   color: AppColors.primary,
 );
 
+final kHint2LabelStyle = GoogleFonts.lato(
+  color: AppColors.textColor,
+  fontSize: 16.0,
+  fontWeight: FontWeight.bold,
+);
+
 final kErrorLabelStyle = GoogleFonts.lato(
   fontSize: 14.0,
   color: Colors.red,
 );
-
-

@@ -8,6 +8,7 @@ import 'package:penta/util/colors.dart';
 import 'package:penta/util/tab_navigator.dart';
 import 'package:penta/model/post.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:penta/routes/edit_profile_view.dart';
 
 void main() {
   runApp(const Penta());
@@ -106,6 +107,9 @@ class _MainViewState extends State<MainView> {
             //Add a post view to this tab's navigation stack.
             var currentPost = settings.arguments as Post;
             return MaterialPageRoute(builder: (_) => PostView(currentPost));
+          } else if (settings.name == EditProfileView.routeName) {
+            int userId = settings.arguments as int? ?? 0;
+            return MaterialPageRoute(builder: (_) => EditProfileView(userId));
           } else {
             return null;
           }

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:penta/util/colors.dart';
 import 'package:penta/util/styles.dart';
+import 'package:penta/util/screenSizes.dart';
 import 'package:penta/model/user.dart';
 import 'package:penta/model/dummy_data.dart';
 import 'package:penta/ui/staggered_grid_posts.dart';
 import 'package:penta/ui/popup_menu.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:penta/routes/edit_profile_view.dart';
 
 class ProfileView extends StatefulWidget {
   final int userId;
@@ -41,21 +43,38 @@ class _ProfileViewState extends State<ProfileView>
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 32),
-                      child: CircleAvatar(
-                        backgroundColor: AppColors.primary,
-                        radius: 80,
-                        child: Image.network(
-                          currentUser.photo,
-                          fit: BoxFit.fitHeight,
-                        ),
+                  Padding(
+                    padding: EdgeInsets.only(
+                        left: screenWidth(context, dividedBy: 2) - 90),
+                    child: CircleAvatar(
+                      backgroundColor: AppColors.primary,
+                      radius: 80,
+                      child: Image.network(
+                        currentUser.photo,
+                        fit: BoxFit.fitHeight,
                       ),
                     ),
                   ),
+                  Spacer(),
                   PopupMenu(
                     menuList: [
+                      PopupMenuItem(
+                        child: ListTile(
+                          leading: Icon(Icons.edit),
+                          title: Text(
+                            "Edit Profile",
+                            style: kLabelStyle,
+                          ),
+                        ),
+                        onTap: () async {
+                          await Future.delayed(Duration.zero);
+                          Navigator.pushNamed(
+                            context,
+                            EditProfileView.routeName,
+                            arguments: userId,
+                          );
+                        },
+                      ),
                       PopupMenuItem(
                         child: ListTile(
                           leading: Icon(Icons.settings),
@@ -69,7 +88,7 @@ class _ProfileViewState extends State<ProfileView>
                         child: ListTile(
                           leading: Icon(Icons.logout),
                           title: Text(
-                            "Log out",
+                            "Log Out",
                             style: kLabelStyle,
                           ),
                           onTap: () async {
@@ -88,7 +107,7 @@ class _ProfileViewState extends State<ProfileView>
                       Icons.more_horiz,
                       size: 32,
                     ),
-                  )
+                  ),
                 ],
               ),
               Container(
