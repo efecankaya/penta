@@ -10,22 +10,45 @@ import 'package:penta/model/post.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:penta/routes/edit_profile_view.dart';
 import 'package:penta/routes/settings_view.dart';
+import 'package:penta/routes/walkthrough_view.dart';
+import 'package:penta/util/arguments.dart';
 
-void main() {
-  runApp(const Penta());
+bool? initialLoad;
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  initialLoad = prefs.getBool("initialLoad");
+
+  runApp(Penta());
 }
 
 class Penta extends StatelessWidget {
-  const Penta({Key? key}) : super(key: key);
+  Penta({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: "Penta",
+      initialRoute: "/",
       routes: {
-        '/': (context) => const MainView(),
         SignUpView.routeName: (context) => SignUpView(),
         LoginView.routeName: (context) => LoginView(),
+      },
+      onGenerateRoute: (settings) {
+        if (settings.name == "/") {
+          bool nullArgs = settings.arguments == null;
+          late bool i;
+          if (nullArgs) {
+            i = initialLoad ?? true;
+          } else {
+            RootArguments args = settings.arguments! as RootArguments;
+            i = args.initialLoad!;
+          }
+          return MaterialPageRoute(
+            builder: (_) => i ? WalkthroughView() : MainView(),
+          );
+        }
       },
       theme: ThemeData(
         colorScheme: ColorScheme.fromSwatch().copyWith(
@@ -86,11 +109,23 @@ class _MainViewState extends State<MainView> {
         //New navigation routes should be added inside onGenerateRoute
         onGenerateRoute: (settings) {
           if (settings.name == "/") {
-            if (settings.arguments == false) {
+            bool nullArgs = settings.arguments == null;
+            late bool l;
+            if (nullArgs) {
+              l = true;
+            } else {
+              RootArguments args = settings.arguments! as RootArguments;
+              l = args.loggedIn!;
+            }
+            if (l == false) {
               //User wants to log out
               exit = true;
               refresh(); //Update the Main View
-              return null;
+              return MaterialPageRoute(
+                builder: (_) => Scaffold(
+                  body: Container(),
+                ),
+              );
             }
             //Base of the navigation stack of the current tab.
             return MaterialPageRoute(
@@ -114,7 +149,11 @@ class _MainViewState extends State<MainView> {
           } else if (settings.name == SettingsView.routeName) {
             return MaterialPageRoute(builder: (_) => SettingsView());
           } else {
-            return null;
+            return MaterialPageRoute(
+              builder: (_) => Scaffold(
+                body: Container(),
+              ),
+            );
           }
         },
       ),
@@ -163,7 +202,7 @@ class _MainViewState extends State<MainView> {
     bool l = loggedIn ?? false;
 
     if (loggedIn == null) {
-      //The async function hasn't gotten loggedIn yet.
+      //The async function didn't return yet.
       return Scaffold(
         body: Center(
           child: Text("Loading..."),

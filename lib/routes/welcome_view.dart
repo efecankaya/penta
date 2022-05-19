@@ -20,7 +20,7 @@ class WelcomeView extends StatelessWidget {
               flex: 1,
               child: Image.asset(
                 'assets/icons/penta-transparent.png',
-                width: 200,
+                width: 250,
               ),
             ),
             Expanded(

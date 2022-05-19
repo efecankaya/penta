@@ -4,6 +4,7 @@ import 'package:penta/util/styles.dart';
 import 'package:penta/util/screenSizes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:penta/util/arguments.dart';
 
 class SignUpView extends StatefulWidget {
   @override
@@ -203,6 +204,7 @@ class _SignUpViewState extends State<SignUpView> {
                                   context,
                                   "/",
                                   (r) => false,
+                                  arguments: RootArguments(initialLoad: false),
                                 );
                               }
                             },

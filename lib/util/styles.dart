@@ -87,3 +87,8 @@ final kErrorLabelStyle = GoogleFonts.lato(
   fontSize: 14.0,
   color: Colors.red,
 );
+
+final kWalkthroughButtonTextStyle = GoogleFonts.lato(
+  fontSize: 20,
+  color: AppColors.primary,
+);

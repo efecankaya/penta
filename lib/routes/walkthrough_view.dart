@@ -1,162 +1,172 @@
 import 'package:flutter/material.dart';
+import 'package:penta/util/colors.dart';
+import 'package:penta/util/styles.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:penta/util/arguments.dart';
 
 class WalkthroughView extends StatefulWidget {
+  const WalkthroughView({Key? key}) : super(key: key);
+
   @override
-  _WalkthroughViewState createState() => _WalkthroughViewState();
+  State<WalkthroughView> createState() => _WalkthroughViewState();
 }
 
 class _WalkthroughViewState extends State<WalkthroughView> {
+  final controller = PageController();
   int currentPage = 0;
-  int lastPage = 3;
 
-  List<String> titles = [
-    'Welcome To Penta',
-    'Bla Bla Bla',
-    'Hello guys',
-    'Lets sign up'
-  ];
-  List<String> headings = [
-    'Welcome to Your World',
-    'See your friends',
-    'Newest news',
-    'Lets Create your Account'
-  ];
-  List<String> captions = [
-    'We crate a world for you',
-    'Your friends are here',
-    'You can add new posts',
-    'you are the best'
-  ];
-
-  List<IconData> images = [
-    Icons.start,
-    Icons.add,
-    Icons.volume_down,
-    Icons.volume_up
-  ];
-
-  void nextPage() {
-    if (currentPage < lastPage) {
-      setState(() {
-        currentPage += 1;
-      });
-    }
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
   }
 
-  void prevPage() {
-    if (currentPage > 0) {
-      setState(() {
-        currentPage -= 1;
-      });
-    }
+  Widget _buildPage({
+    required String image,
+    required String title,
+    required String subtitle,
+  }) =>
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Container(
+            height: MediaQuery.of(context).size.width * 0.6,
+            width: MediaQuery.of(context).size.height * 0.4,
+            decoration: BoxDecoration(
+                image: DecorationImage(
+                    image: AssetImage(image))),
+          ),
+          SizedBox(
+            height: 60.0,
+          ),
+          Text(
+            title,
+            style: kHeadingTextStyle,
+          ),
+          SizedBox(
+            height: 15.0,
+          ),
+          Center(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 40.0),
+              child: Text(
+                subtitle,
+                style: kLabelStyle,
+                textAlign: TextAlign.center,
+              ),
+            ),
+          )
+        ],
+      );
+
+  _storeWalkthroughInfo() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool("initialLoad", false);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF5743BD),
-      appBar: AppBar(
-        backgroundColor: const Color(0xFF261780),
-        title: Text(
-          titles[currentPage].toUpperCase(),
-          style: TextStyle(
-            color: Colors.white,
-            letterSpacing: -1,
-          ),
+      body: Container(
+        padding: const EdgeInsets.only(bottom: 80),
+        child: PageView(
+          controller: controller,
+          onPageChanged: (index) {
+            setState(() => currentPage = index);
+          },
+          children: [
+            _buildPage(
+              image: 'assets/icons/penta-transparent.png',
+              title: "Welcome to Penta!",
+              subtitle: "The only social media application you need.",
+            ),
+            _buildPage(
+              image: 'assets/walkthrough/walkthrough_1.png',
+              title: "Explore",
+              subtitle: "Explore your favorite topics.",
+            ),
+            _buildPage(
+              image: 'assets/walkthrough/walkthrough_2.png',
+              title: "Connect",
+              subtitle: "Connect with new people.",
+            ),
+          ],
         ),
-        centerTitle: true,
       ),
-      body: SafeArea(
-        child: Column(
+      bottomSheet: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        height: 80,
+        child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Center(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16),
+            Visibility(
+              child: TextButton(
+                onPressed: () => controller.previousPage(
+                  duration: const Duration(milliseconds: 250),
+                  curve: Curves.easeInOut,
+                ),
                 child: Text(
-                  headings[currentPage],
-                  style: TextStyle(
-                    fontSize: 32,
-                    fontWeight: FontWeight.w800,
-                    color: Colors.white,
-                    letterSpacing: -1.0,
+                  'PREV',
+                  style: kWalkthroughButtonTextStyle,
+                ),
+              ),
+              visible: currentPage != 0,
+              maintainSize: true,
+              maintainAnimation: true,
+              maintainState: true,
+            ),
+            Visibility(
+              child: Center(
+                child: SmoothPageIndicator(
+                  controller: controller,
+                  count: 3,
+                  effect: WormEffect(
+                    spacing: 16,
+                    dotColor: Colors.black26,
+                    activeDotColor: AppColors.primary,
+                  ),
+                  onDotClicked: (index) => controller.animateToPage(
+                    index,
+                    duration: const Duration(milliseconds: 250),
+                    curve: Curves.easeIn,
                   ),
                 ),
               ),
+              visible: currentPage != 2,
+              maintainSize: true,
+              maintainAnimation: true,
+              maintainState: true,
             ),
-            Container(
-              height: 280,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(20.0), //or 15.0
-                child: Container(
-                  height: 150.0,
-                  width: 300.0,
-                  color: Color(0xffFF0E58),
-                  child: Icon(images[currentPage],
-                      color: Colors.white, size: 150.0),
-                ),
-              ),
-            ),
-            Center(
-              child: Text(
-                captions[currentPage],
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.w300,
-                  color: Colors.white,
-                  letterSpacing: -1.0,
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Container(
-                height: 80,
-                child: Row(
-                  children: [
-                    Container(
-                      height: 30,
-                      color: Colors.deepPurple,
-                      child: OutlinedButton(
-                        child: Container(
-                          child: Text(
-                            'Previous',
-                            style: TextStyle(
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                        onPressed: prevPage,
-                      ),
+            currentPage != 2
+                ? TextButton(
+                    onPressed: () => controller.nextPage(
+                      duration: const Duration(milliseconds: 250),
+                      curve: Curves.easeInOut,
                     ),
-                    Spacer(),
-                    Text(
-                      '${currentPage + 1}/${lastPage + 1}',
-                      style: TextStyle(
-                        color: Colors.white,
-                      ),
+                    child: Text(
+                      'NEXT',
+                      style: kWalkthroughButtonTextStyle,
                     ),
-                    Spacer(),
-                    Container(
-                      height: 30,
-                      color: Colors.deepPurple,
-                      child: OutlinedButton(
-                        child: Container(
-                          width: 45,
-                          child: Text(
-                            'Next',
-                            style: TextStyle(
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                        onPressed: nextPage,
-                      ),
+                  )
+                : TextButton(
+                    onPressed: () {
+                      _storeWalkthroughInfo();
+                      Navigator.pushReplacementNamed(
+                        context,
+                        "/",
+                        arguments: RootArguments(initialLoad: false),
+                      );
+                    },
+                    child: Text(
+                      'GET STARTED',
+                      style: kWalkthroughButtonTextStyle,
                     ),
-                  ],
-                ),
-              ),
-            ),
+                    style: TextButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(2))),
+                  )
           ],
         ),
       ),

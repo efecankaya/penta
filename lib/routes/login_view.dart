@@ -4,6 +4,7 @@ import 'package:penta/util/styles.dart';
 import 'package:penta/util/screenSizes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:penta/util/arguments.dart';
 
 class LoginView extends StatefulWidget {
   @override
@@ -188,6 +189,7 @@ class _LoginViewState extends State<LoginView> {
                                   context,
                                   "/",
                                   (r) => false,
+                                  arguments: RootArguments(initialLoad: false),
                                 );
                               } else {
                                 //_showDialog('Error', 'Please input a valid email');
