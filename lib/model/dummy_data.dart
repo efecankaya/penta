@@ -1,9 +1,12 @@
+import 'package:penta/model/notif.dart';
 import 'package:penta/model/comment.dart';
 import 'package:penta/model/post.dart';
 import 'package:penta/model/user.dart';
 
 //This data will get replaced by firebase in the future
 final DUMMY_USERS = [
+
+
   User(
     id: 0,
     username: "user0",
@@ -495,4 +498,43 @@ final DUMMY_POSTS = [
     ].toList(),
     topics: ["Nature", "Tree"],
   ),
+];
+final DUMMY_NOTIF= [
+Notif(userId: 1,
+    username: "user1",
+    text: "liked your photo",
+    date: "1,1,1999",
+    commentincl: true,
+    postId: 12,
+    activityId: 2),
+
+  Notif(userId: 2,
+      username: "user3",
+      text: "following you",
+      date: "1,1,1212",
+      commentincl: false,
+      postId: 12,
+      activityId: 2),
+  Notif(userId: 2,
+      username: "user4",
+      text: "commeted",
+      date: "1,1,1212",
+      commentincl: true,
+      postId: 10,
+      activityId: 2),
+  Notif(userId: 2,
+      username: "user1",
+      text: "send message",
+      date: "1,1,1212",
+      commentincl: false,
+      postId: 12,
+      activityId: 2),
+  Notif(userId: 2,
+      username: "user2",
+      text: "send new post",
+      date: "1,1,1212",
+      commentincl: true,
+      postId: 4,
+      activityId: 2),
+
 ];
