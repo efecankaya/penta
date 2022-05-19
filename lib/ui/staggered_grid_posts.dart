@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:penta/routes/post_view.dart';
 import 'package:penta/model/dummy_data.dart';
+import 'package:penta/model/post.dart';
 
 //This currently only works for a fixed number of posts that are indexed.
 //Subject to change when we add Firebase to the project.
@@ -13,6 +14,11 @@ class StaggeredGridPosts extends StatefulWidget {
   //If we want to display every post, username will be null.
   StaggeredGridPosts({this.username = null});
 
+  //If this is not null, display based on this list
+  List<Post>? posts;
+
+  StaggeredGridPosts.custom({required this.posts, this.username = null});
+
   @override
   State<StaggeredGridPosts> createState() => _StaggeredGridPostsState();
 }
@@ -20,6 +26,21 @@ class StaggeredGridPosts extends StatefulWidget {
 class _StaggeredGridPostsState extends State<StaggeredGridPosts> {
   @override
   Widget build(BuildContext context) {
+    if (widget.posts != null) {
+      List<Post> posts = widget.posts!;
+      return StaggeredGrid.count(
+        crossAxisCount: 2,
+        axisDirection: AxisDirection.down,
+        children: List.generate(
+          posts.length,
+          (int i) {
+            //For each element, do the following:
+            return _Tile(posts[i].id);
+          },
+        ),
+      );
+    }
+
     return StaggeredGrid.count(
       crossAxisCount: 2,
       axisDirection: AxisDirection.down,

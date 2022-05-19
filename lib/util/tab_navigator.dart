@@ -17,7 +17,7 @@ class TabNavigator extends StatelessWidget {
     if (tabItem == "feed") {
       child = const FeedView();
     } else if (tabItem == "search") {
-      child = const SearchView();
+      child = SearchView();
     } else if (tabItem == "upload") {
       child = const UploadView();
     } else if (tabItem == "messages") {
