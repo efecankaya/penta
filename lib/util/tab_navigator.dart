@@ -21,7 +21,7 @@ class TabNavigator extends StatelessWidget {
     } else if (tabItem == "upload") {
       child = const UploadView();
     } else if (tabItem == "messages") {
-      child = const MessagesView();
+      child = MessagesView();
     } else {
       child = const ProfileView(userId: 0);
     }
