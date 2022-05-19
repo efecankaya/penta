@@ -58,68 +58,73 @@ class _ProfileViewState extends State<ProfileView>
                     ),
                   ),
                   Spacer(),
-                  PopupMenu(
-                    menuList: [
-                      PopupMenuItem(
-                        child: ListTile(
-                          leading: Icon(Icons.edit),
-                          title: Text(
-                            "Edit Profile",
-                            style: kLabelStyle,
+                  currentUser.id == 0
+                      ? PopupMenu(
+                          menuList: [
+                            PopupMenuItem(
+                              child: ListTile(
+                                leading: Icon(Icons.edit),
+                                title: Text(
+                                  "Edit Profile",
+                                  style: kLabelStyle,
+                                ),
+                              ),
+                              onTap: () async {
+                                await Future.delayed(Duration.zero);
+                                Navigator.pushNamed(
+                                  context,
+                                  EditProfileView.routeName,
+                                  arguments: userId,
+                                );
+                              },
+                            ),
+                            PopupMenuItem(
+                              child: ListTile(
+                                leading: Icon(Icons.settings),
+                                title: Text(
+                                  "Settings",
+                                  style: kLabelStyle,
+                                ),
+                              ),
+                              onTap: () async {
+                                await Future.delayed(Duration.zero);
+                                Navigator.pushNamed(
+                                  context,
+                                  SettingsView.routeName,
+                                );
+                              },
+                            ),
+                            PopupMenuItem(
+                              child: ListTile(
+                                leading: Icon(Icons.logout),
+                                title: Text(
+                                  "Log Out",
+                                  style: kLabelStyle,
+                                ),
+                                onTap: () async {
+                                  final SharedPreferences prefs =
+                                      await SharedPreferences.getInstance();
+                                  prefs.setBool("loggedIn", false);
+                                  Navigator.pushNamedAndRemoveUntil(
+                                    context,
+                                    "/",
+                                    (r) => false,
+                                    arguments: RootArguments(loggedIn: false),
+                                  );
+                                  //Argument false means that user wants to log out
+                                },
+                              ),
+                            ),
+                          ],
+                          icon: Icon(
+                            Icons.more_horiz,
+                            size: 32,
                           ),
+                        )
+                      : Icon(
+                          Icons.more_horiz,
+                          size: 32,
                         ),
-                        onTap: () async {
-                          await Future.delayed(Duration.zero);
-                          Navigator.pushNamed(
-                            context,
-                            EditProfileView.routeName,
-                            arguments: userId,
-                          );
-                        },
-                      ),
-                      PopupMenuItem(
-                        child: ListTile(
-                          leading: Icon(Icons.settings),
-                          title: Text(
-                            "Settings",
-                            style: kLabelStyle,
-                          ),
-                        ),
-                        onTap: () async {
-                          await Future.delayed(Duration.zero);
-                          Navigator.pushNamed(
-                            context,
-                            SettingsView.routeName,
-                          );
-                        },
-                      ),
-                      PopupMenuItem(
-                        child: ListTile(
-                          leading: Icon(Icons.logout),
-                          title: Text(
-                            "Log Out",
-                            style: kLabelStyle,
-                          ),
-                          onTap: () async {
-                            final SharedPreferences prefs =
-                                await SharedPreferences.getInstance();
-                            prefs.setBool("loggedIn", false);
-                            Navigator.pushNamedAndRemoveUntil(
-                              context,
-                              "/",
-                              (r) => false,
-                              arguments: RootArguments(loggedIn: false),
-                            );
-                            //Argument false means that user wants to log out
-                          },
-                        ),
-                      ),
-                    ],
-                    icon: Icon(
-                      Icons.more_horiz,
-                      size: 32,
-                    ),
-                  ),
                 ],
               ),
               Container(
