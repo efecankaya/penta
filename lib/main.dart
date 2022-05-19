@@ -9,6 +9,7 @@ import 'package:penta/util/tab_navigator.dart';
 import 'package:penta/model/post.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:penta/routes/edit_profile_view.dart';
+import 'package:penta/routes/settings_view.dart';
 
 void main() {
   runApp(const Penta());
@@ -110,6 +111,8 @@ class _MainViewState extends State<MainView> {
           } else if (settings.name == EditProfileView.routeName) {
             int userId = settings.arguments as int? ?? 0;
             return MaterialPageRoute(builder: (_) => EditProfileView(userId));
+          } else if (settings.name == SettingsView.routeName) {
+            return MaterialPageRoute(builder: (_) => SettingsView());
           } else {
             return null;
           }

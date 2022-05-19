@@ -8,6 +8,7 @@ import 'package:penta/ui/staggered_grid_posts.dart';
 import 'package:penta/ui/popup_menu.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:penta/routes/edit_profile_view.dart';
+import 'package:penta/routes/settings_view.dart';
 
 class ProfileView extends StatefulWidget {
   final int userId;
@@ -83,6 +84,13 @@ class _ProfileViewState extends State<ProfileView>
                             style: kLabelStyle,
                           ),
                         ),
+                        onTap: () async {
+                          await Future.delayed(Duration.zero);
+                          Navigator.pushNamed(
+                            context,
+                            SettingsView.routeName,
+                          );
+                        },
                       ),
                       PopupMenuItem(
                         child: ListTile(

@@ -30,7 +30,7 @@ class _EditProfileViewState extends State<EditProfileView> {
         elevation: 0.0,
       ),
       body: Container(
-        padding: const EdgeInsets.all(10),
+        padding: const EdgeInsets.only(left: 16, top: 25, right: 16),
         child: GestureDetector(
           onTap: () {
             FocusScope.of(context).unfocus();
@@ -141,6 +141,40 @@ class _EditProfileViewState extends State<EditProfileView> {
                   hintText: currentUser.bio,
                   hintStyle: kHint2LabelStyle,
                 ),
+              ),
+              SizedBox(
+                height: 35,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  OutlinedButton(
+                    onPressed: () {},
+                    child: Text(
+                      "CANCEL",
+                      style: kSmallButtonLightTextStyle,
+                    ),
+                    style: OutlinedButton.styleFrom(
+                      fixedSize: const Size(150,40),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                    ),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {},
+                    child: Text(
+                      "SAVE",
+                      style: kSmallButtonDarkTextStyle,
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      fixedSize: const Size(150,40),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),

@@ -24,6 +24,18 @@ final kButtonDarkTextStyle = GoogleFonts.lato(
   fontSize: 20.0,
 );
 
+final kSmallButtonLightTextStyle = GoogleFonts.lato(
+  color: AppColors.textColor,
+  fontSize: 14.0,
+  letterSpacing: 2.2,
+);
+
+final kSmallButtonDarkTextStyle = GoogleFonts.lato(
+  color: AppColors.darkButtonTextColor,
+  fontSize: 14.0,
+  letterSpacing: 2.2,
+);
+
 final kAppBarTitleTextStyle = GoogleFonts.lato(
   color: AppColors.appBarTitleTextColor,
   fontSize: 24.0,
@@ -48,6 +60,11 @@ final kFadedLabelStyle = GoogleFonts.lato(
 
 final kSmallLabelStyle = GoogleFonts.lato(
   fontSize: 14.0,
+  color: AppColors.textColor,
+);
+
+final kLargeLabelStyle = GoogleFonts.lato(
+  fontSize: 28.0,
   color: AppColors.textColor,
 );
 
