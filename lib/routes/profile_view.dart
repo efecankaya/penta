@@ -160,6 +160,43 @@ class _ProfileViewState extends State<ProfileView>
                   ],
                 ),
               ),
+              currentUser.id == 0
+                  ? SizedBox.shrink()
+                  : Container(
+                      padding: const EdgeInsets.only(top: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          OutlinedButton(
+                            onPressed: () {},
+                            child: Text(
+                              "Follow",
+                              style: kSmallButtonLightTextStyle,
+                            ),
+                            style: OutlinedButton.styleFrom(
+                              fixedSize: const Size(130, 40),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 20),
+                          ElevatedButton(
+                            onPressed: () {},
+                            child: Text(
+                              "Message",
+                              style: kSmallButtonDarkTextStyle,
+                            ),
+                            style: ElevatedButton.styleFrom(
+                              fixedSize: const Size(130, 40),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
             ],
           ),
         ),
