@@ -62,41 +62,34 @@ class _SearchViewState extends State<SearchView>
           centerTitle: true,
           elevation: 0.0,
         ),
-        body: NestedScrollView(
-          controller: _scrollController,
-          headerSliverBuilder: (context, value) {
-            return [
-              SliverToBoxAdapter(
-                child: SearchWidget(
-                  text: query,
-                  hintText: "Search...",
-                  onChanged: search,
-                ),
-              ),
-              SliverToBoxAdapter(
-                child: Container(
-                  child: TabBar(
-                    indicatorColor: AppColors.primary,
-                    labelStyle: kLabelStyle,
-                    labelColor: AppColors.textColor,
-                    controller: _tabController,
-                    tabs: searchTabs,
-                  ),
-                ),
-              ),
-            ];
-          },
-          body: Container(
-            child: TabBarView(
-              controller: _tabController,
-              children: [
-                _buildPostsTabContext(posts),
-                const Text("The accounts will go here"),
-                const Text("The topics will go here"),
-                const Text("The locations will go here"),
-              ],
+        body: Column(
+          children: [
+            SearchWidget(
+              text: query,
+              hintText: "Search...",
+              onChanged: search,
             ),
-          ),
+            Container(
+              child: TabBar(
+                indicatorColor: AppColors.primary,
+                labelStyle: kLabelStyle,
+                labelColor: AppColors.textColor,
+                controller: _tabController,
+                tabs: searchTabs,
+              ),
+            ),
+            Expanded(
+              child: TabBarView(
+                controller: _tabController,
+                children: [
+                  _buildPostsTabContext(posts),
+                  const Text("The accounts will go here"),
+                  const Text("The topics will go here"),
+                  const Text("The locations will go here"),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -144,7 +137,7 @@ class _SearchWidgetState extends State<SearchWidget> {
 
     return Container(
       height: 42,
-      margin: const EdgeInsets.all(16),
+      margin: const EdgeInsets.fromLTRB(16,16,16,4),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
         color: Colors.white,
