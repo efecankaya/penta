@@ -4,6 +4,9 @@ import 'package:penta/util/styles.dart';
 import 'package:penta/model/dummy_data.dart';
 import 'package:penta/model/post.dart';
 import 'package:penta/ui/staggered_grid_posts.dart';
+import 'package:penta/model/user.dart';
+import 'package:penta/routes/profile_view.dart';
+
 
 class SearchView extends StatefulWidget {
   @override
@@ -22,6 +25,7 @@ class _SearchViewState extends State<SearchView>
   late ScrollController _scrollController;
 
   List<Post> posts = DUMMY_POSTS;
+  List<User> users = DUMMY_USERS;
   String query = '';
 
   @override
@@ -83,7 +87,7 @@ class _SearchViewState extends State<SearchView>
                 controller: _tabController,
                 children: [
                   _buildPostsTabContext(posts),
-                  const Text("The accounts will go here"),
+                  AccountSearch(context, users),
                   const Text("The topics will go here"),
                   const Text("The locations will go here"),
                 ],
@@ -102,13 +106,21 @@ class _SearchViewState extends State<SearchView>
 
       return descriptionLower.contains(searchLower);
     }).toList();
+    final users = DUMMY_USERS.where((User) {
+      final descriptionLower = User.username.toLowerCase();
+      final searchLower = query.toLowerCase();
+
+      return descriptionLower.contains(searchLower);
+    }).toList();
 
     setState(() {
       this.query = query;
       this.posts = posts;
+      this.users = users;
     });
   }
 }
+
 
 class SearchWidget extends StatefulWidget {
   final String text;
@@ -173,4 +185,58 @@ class _SearchWidgetState extends State<SearchWidget> {
       ),
     );
   }
+}
+Widget AccountSearch(context, List<User> Users) {
+  var list = <Widget>[];
+  for (var i = 0; i < Users.length; i++) {
+    list.add(
+      Column(
+        children: [
+          GestureDetector(
+            child: Row(
+              children: [
+                CircleAvatar(
+                  radius: 30,
+                  backgroundColor: AppColors.primary,
+                  child: Image.network(
+                    Users[i].photo,
+                    fit: BoxFit.fitHeight,
+                  ),
+                ),
+                Expanded(
+                  child: RichText(
+                    text: TextSpan(
+                      style: kLabelStyle,
+                      children: <TextSpan>[
+                        TextSpan(
+                          text: "    ${Users[i].username}  ",
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            onTap: () {
+              User currentUser = DUMMY_USERS
+                  .where(
+                      (element) => element.username == "${Users[i].username}")
+                  .toList()[0];
+              Navigator.pushNamed(context, ProfileView.routeName,
+                  arguments: currentUser.id);
+            },
+          ),
+          SizedBox(
+            height: 10,
+          ),
+        ],
+      ),
+    );
+  }
+  return SingleChildScrollView(
+    child: Padding(padding: EdgeInsets.all(10), child: Column(children: list)),
+  );
 }
