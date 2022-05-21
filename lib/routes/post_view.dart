@@ -7,9 +7,7 @@ import 'package:penta/model/comment.dart';
 import 'package:penta/routes/profile_view.dart';
 import 'package:penta/model/dummy_data.dart';
 import 'package:penta/model/user.dart';
-
 class PostView extends StatefulWidget {
-  @override
   _PostViewState createState() => _PostViewState();
 
   static const String routeName = '/post';
@@ -187,7 +185,7 @@ class _PostViewState extends State<PostView> {
                 style: kFadedLabelStyle,
               ),
             ),
-            getComments(currentPost.comments),
+            getComments(context,currentPost.comments),
             const SizedBox(
               height: 200,
             ),
@@ -211,13 +209,15 @@ Widget getTopics(List<String> strings) {
 }
 
 //Returns every comment as a Column widget
-Widget getComments(List<Comment> comments) {
+Widget getComments(context,List<Comment> comments) {
   var list = <Widget>[];
   for (var i = 0; i < comments.length; i++) {
     list.add(
-      Row(
+        GestureDetector(
+      child: Row(
         children: [
-          Container(
+
+         Container(
             padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 10),
             child: RichText(
               text: TextSpan(
@@ -227,7 +227,9 @@ Widget getComments(List<Comment> comments) {
                     text: "${comments[i].username}  ",
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
+
                     ),
+
                   ),
                   TextSpan(
                     text: comments[i].text,
@@ -235,9 +237,21 @@ Widget getComments(List<Comment> comments) {
                 ],
               ),
             ),
+
           ),
+
         ],
+        ),
+            onTap: () {
+    User currentUser = DUMMY_USERS
+        .where((element) =>
+    element.username == "${comments[i].username}")
+        .toList()[0];
+    Navigator.pushNamed(context, ProfileView.routeName,
+    arguments: currentUser.id);
+    },
       ),
+
     );
   }
   return Column(children: list);
