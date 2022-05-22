@@ -83,6 +83,23 @@ Widget ActivityBuilder(context, List<Notif> DUMMY_NOTIF) {
                       );
                     }
                   }),
+              const Spacer(),
+              DUMMY_NOTIF[i].text == "following you"
+              ? ElevatedButton(
+                onPressed: () {
+
+                },
+                child: Text(
+                  "Follow",
+                  style: kSmallButtonDarkTextStyle,
+                ),
+                style: ElevatedButton.styleFrom(
+                  fixedSize: const Size(100, 30),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                ),
+              ):SizedBox.shrink(),
             ],
           ),
           SizedBox(
