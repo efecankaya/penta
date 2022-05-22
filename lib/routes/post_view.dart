@@ -215,6 +215,7 @@ Widget getComments(context, List<Comment> comments) {
         child: Row(
           children: [
             Container(
+              width: screenWidth(context),
               padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 10),
               child: RichText(
                 text: TextSpan(
@@ -237,7 +238,7 @@ Widget getComments(context, List<Comment> comments) {
         ),
         onTap: () {
           User currentUser = DUMMY_USERS
-              .where((element) => element.username == "${comments[i].username}")
+              .where((element) => element.username == comments[i].username)
               .toList()[0];
           Navigator.pushNamed(context, ProfileView.routeName,
               arguments: currentUser.id);
