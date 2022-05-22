@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:penta/model/notif.dart';
 import 'package:penta/util/colors.dart';
+import 'package:penta/util/screenSizes.dart';
 import 'package:penta/util/styles.dart';
 
 import 'package:penta/routes/profile_view.dart';
@@ -97,10 +98,37 @@ Widget ActivityBuilder(context, List<Notif> DUMMY_NOTIF) {
                       ),
                     )
                   : SizedBox.shrink(),
+
+              DUMMY_NOTIF[i].text.contains('post') || DUMMY_NOTIF[i].text.contains('photo')
+                  ? GestureDetector(
+                      child:Container(
+                        child: Image.asset(
+                          DUMMY_POSTS[DUMMY_NOTIF[i].postId].image,
+                          scale: 4.7,
+                        ),
+                        height: 60,
+                        width: 60,
+                      ),
+                      onTap: () {
+                        if (DUMMY_NOTIF[i].commentincl == true) {
+                          Navigator.pushNamed(
+                            context,
+                            PostView.routeName,
+                            arguments: DUMMY_POSTS[DUMMY_NOTIF[i].postId],
+                          );
+                        }
+                      }
+                    )
+                  : SizedBox.shrink(),
+                  
             ],
           ),
-          SizedBox(
-            height: 10,
+          Divider(
+            color: Colors.grey.shade300,
+            height: 20,
+            thickness: 1.3,
+            indent: 5,
+            endIndent: 5,
           ),
         ],
       ),
