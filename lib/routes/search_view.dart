@@ -7,7 +7,6 @@ import 'package:penta/ui/staggered_grid_posts.dart';
 import 'package:penta/model/user.dart';
 import 'package:penta/routes/profile_view.dart';
 
-
 class SearchView extends StatefulWidget {
   @override
   State<SearchView> createState() => _SearchViewState();
@@ -121,7 +120,6 @@ class _SearchViewState extends State<SearchView>
   }
 }
 
-
 class SearchWidget extends StatefulWidget {
   final String text;
   final ValueChanged<String> onChanged;
@@ -149,7 +147,7 @@ class _SearchWidgetState extends State<SearchWidget> {
 
     return Container(
       height: 42,
-      margin: const EdgeInsets.fromLTRB(16,16,16,4),
+      margin: const EdgeInsets.fromLTRB(16, 16, 16, 4),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
         color: Colors.white,
@@ -186,6 +184,7 @@ class _SearchWidgetState extends State<SearchWidget> {
     );
   }
 }
+
 Widget AccountSearch(context, List<User> Users) {
   var list = <Widget>[];
   for (var i = 0; i < Users.length; i++) {
@@ -198,9 +197,8 @@ Widget AccountSearch(context, List<User> Users) {
                 CircleAvatar(
                   radius: 30,
                   backgroundColor: AppColors.primary,
-                  child: Image.network(
+                  backgroundImage: NetworkImage(
                     Users[i].photo,
-                    fit: BoxFit.fitHeight,
                   ),
                 ),
                 Expanded(

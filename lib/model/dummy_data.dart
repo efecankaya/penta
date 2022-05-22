@@ -5,14 +5,13 @@ import 'package:penta/model/user.dart';
 
 //This data will get replaced by firebase in the future
 final DUMMY_USERS = [
-
-
   User(
     id: 0,
     username: "elonmusk",
     email: "iamelon@gmail.com",
     name: "Elon Musk",
-    photo: "https://i01.sozcucdn.com/wp-content/uploads/2021/03/11/iecrop/elonmusk-reuters_16_9_1615464321.jpg",
+    photo:
+        "https://i01.sozcucdn.com/wp-content/uploads/2021/03/11/iecrop/elonmusk-reuters_16_9_1615464321.jpg",
     bio: "Richest Man Alive",
     followers: Map(),
     following: Map(),
@@ -22,7 +21,8 @@ final DUMMY_USERS = [
     username: "jeffreyBezos",
     email: "bezosJeff@gmail.com",
     name: "Jeff Bezos",
-    photo: "https://pbs.twimg.com/profile_images/669103856106668033/UF3cgUk4_400x400.jpg",
+    photo:
+        "https://pbs.twimg.com/profile_images/669103856106668033/UF3cgUk4_400x400.jpg",
     bio: "Founder of Amazon",
     followers: Map(),
     following: Map(),
@@ -32,7 +32,8 @@ final DUMMY_USERS = [
     username: "harryP",
     email: "thepotter@gmail.com",
     name: "Harry Potter",
-    photo: "https://imgrosetta.mynet.com.tr/file/14059491/14059491-728xauto.png",
+    photo:
+        "https://imgrosetta.mynet.com.tr/file/14059491/14059491-728xauto.png",
     bio: "Yo, I know some magic!",
     followers: Map(),
     following: Map(),
@@ -42,7 +43,8 @@ final DUMMY_USERS = [
     username: "jMou",
     email: "josemourinho@gmail.com",
     name: "José Mourinho",
-    photo: "https://iaaspr.tmgrup.com.tr/bf624c/414/262/0/0/2048/1299?u=https://iaspr.tmgrup.com.tr/2021/06/25/son-dakika-spor-haberi-roma-teknik-direktoru-jose-mourinho-milli-futbolcu-merih-demirali-istiyor-1624634491037.jpg",
+    photo:
+        "https://iaaspr.tmgrup.com.tr/bf624c/414/262/0/0/2048/1299?u=https://iaspr.tmgrup.com.tr/2021/06/25/son-dakika-spor-haberi-roma-teknik-direktoru-jose-mourinho-milli-futbolcu-merih-demirali-istiyor-1624634491037.jpg",
     bio: "I am Jose Mourinho",
     followers: Map(),
     following: Map(),
@@ -132,7 +134,8 @@ final DUMMY_USERS = [
     username: "erenbali",
     email: "erenbali@gmail.com",
     name: "Eren Bali",
-    photo: "https://girisimturkiye.com/wp-content/uploads/2020/04/udemy-kurucu-orta%C4%9F%C4%B1-ve-ceosu-eren-bali.jpg",
+    photo:
+        "https://girisimturkiye.com/wp-content/uploads/2020/04/udemy-kurucu-orta%C4%9F%C4%B1-ve-ceosu-eren-bali.jpg",
     bio: "Co-founder of Udemy Academy",
     followers: Map(),
     following: Map(),
@@ -147,8 +150,7 @@ final DUMMY_POSTS = [
     likes: 10,
     image: "assets/images/0.jpeg",
     location: "San Francisco",
-    description:
-        "It is good to relax after spending 22 billion dollar!!",
+    description: "It is good to relax after spending 22 billion dollar!!",
     comments: [
       Comment(
         userId: 1,
@@ -167,8 +169,7 @@ final DUMMY_POSTS = [
     likes: 10,
     image: "assets/images/1.jpeg",
     location: "California",
-    description:
-        "Just took this amazing picture when I was jogging",
+    description: "Just took this amazing picture when I was jogging",
     comments: [
       Comment(
         userId: 2,
@@ -187,8 +188,7 @@ final DUMMY_POSTS = [
     likes: 20,
     image: "assets/images/2.jpeg",
     location: "London, UK",
-    description:
-        "What an amazing place to try some spell.",
+    description: "What an amazing place to try some spell.",
     comments: [
       Comment(
         userId: 2,
@@ -214,8 +214,7 @@ final DUMMY_POSTS = [
     likes: 10,
     image: "assets/images/3.jpeg",
     location: "Lisbon",
-    description:
-        "My favorite place after a season is over.",
+    description: "My favorite place after a season is over.",
     comments: [
       Comment(
         userId: 2,
@@ -241,8 +240,7 @@ final DUMMY_POSTS = [
     likes: 10,
     image: "assets/images/4.jpeg",
     location: "Aokigahara",
-    description:
-        "Cannot stop thinking for a minute to dive into this lake.",
+    description: "Cannot stop thinking for a minute to dive into this lake.",
     comments: [
       Comment(
         userId: 2,
@@ -275,8 +273,7 @@ final DUMMY_POSTS = [
     likes: 10,
     image: "assets/images/5.jpeg",
     location: "Antalya",
-    description:
-        "An amazing experince thanks to suDosk.",
+    description: "An amazing experince thanks to suDosk.",
     comments: [
       Comment(
         userId: 1,
@@ -302,8 +299,7 @@ final DUMMY_POSTS = [
     likes: 10,
     image: "assets/images/6.jpeg",
     location: "Amazon Forest",
-    description:
-        "Hello! This is a photo that I took on my trip to Amazon.",
+    description: "Hello! This is a photo that I took on my trip to Amazon.",
     comments: [
       Comment(
         userId: 5,
@@ -329,8 +325,7 @@ final DUMMY_POSTS = [
     likes: 10,
     image: "assets/images/7.jpeg",
     location: "Porto, Portugal",
-    description:
-        "Hello! I just agree the offer of Fenerbahce.",
+    description: "Hello! I just agree the offer of Fenerbahce.",
     comments: [
       Comment(
         userId: 0,
@@ -356,8 +351,7 @@ final DUMMY_POSTS = [
     likes: 10,
     image: "assets/images/8.jpeg",
     location: "Sile",
-    description:
-        "Dreaming about this.",
+    description: "Dreaming about this.",
     comments: [
       Comment(
         userId: 0,
@@ -383,8 +377,7 @@ final DUMMY_POSTS = [
     likes: 10,
     image: "assets/images/9.jpeg",
     location: "Konya Plain",
-    description:
-        "Feel like I am in a game.",
+    description: "Feel like I am in a game.",
     comments: [
       Comment(
         userId: 1,
@@ -410,8 +403,7 @@ final DUMMY_POSTS = [
     likes: 10,
     image: "assets/images/10.jpeg",
     location: "Argentina",
-    description:
-        "One of my favorite place I've ever been.",
+    description: "One of my favorite place I've ever been.",
     comments: [
       Comment(
         userId: 1,
@@ -437,8 +429,7 @@ final DUMMY_POSTS = [
     likes: 10,
     image: "assets/images/11.jpeg",
     location: "Polonezkoy",
-    description:
-        "This place inspired me to become an AI Engineer.",
+    description: "This place inspired me to become an AI Engineer.",
     comments: [
       Comment(
         userId: 1,
@@ -464,8 +455,7 @@ final DUMMY_POSTS = [
     likes: 10,
     image: "assets/images/12.jpeg",
     location: "Arizona",
-    description:
-        "Hello! This is my first photo on Penta.",
+    description: "Hello! This is my first photo on Penta.",
     comments: [
       Comment(
         userId: 1,
@@ -485,42 +475,45 @@ final DUMMY_POSTS = [
     topics: ["Nature", "Tree"],
   ),
 ];
-final DUMMY_NOTIF= [
-Notif(userId: 1,
-    username: "jeffreyBezos",
-    text: "liked your photo",
-    date: "1,1,1999",
-    commentincl: true,
-    postId: 12,
-    activityId: 2),
-
-  Notif(userId: 2,
+final DUMMY_NOTIF = [
+  Notif(
+      userId: 1,
+      username: "jeffreyBezos",
+      text: "liked your photo",
+      date: "1,1,1999",
+      commentincl: true,
+      postId: 12,
+      activityId: 2),
+  Notif(
+      userId: 2,
       username: "harryP",
-      text: "following you",
+      text: "is following you",
       date: "1,1,1212",
       commentincl: false,
       postId: 12,
       activityId: 2),
-  Notif(userId: 2,
+  Notif(
+      userId: 4,
       username: "vfb1",
-      text: "commeted",
+      text: "commented on your photo",
       date: "1,1,1212",
       commentincl: true,
       postId: 10,
       activityId: 2),
-  Notif(userId: 2,
+  Notif(
+      userId: 1,
       username: "jeffreyBezos",
-      text: "send message",
+      text: "sent you message",
       date: "1,1,1212",
       commentincl: false,
       postId: 12,
       activityId: 2),
-  Notif(userId: 2,
+  Notif(
+      userId: 2,
       username: "harryP",
-      text: "send new post",
+      text: "sent a new post",
       date: "1,1,1212",
       commentincl: true,
       postId: 4,
       activityId: 2),
-
 ];

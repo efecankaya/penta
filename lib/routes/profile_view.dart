@@ -51,9 +51,8 @@ class _ProfileViewState extends State<ProfileView>
                     child: CircleAvatar(
                       backgroundColor: AppColors.primary,
                       radius: 80,
-                      child: Image.network(
+                      backgroundImage: NetworkImage(
                         currentUser.photo,
-                        fit: BoxFit.fitHeight,
                       ),
                     ),
                   ),

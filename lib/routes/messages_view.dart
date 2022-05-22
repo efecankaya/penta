@@ -34,6 +34,9 @@ class MessagesView extends StatelessWidget {
 Widget ActivityBuilder(context, List<Notif> DUMMY_NOTIF) {
   var list = <Widget>[];
   for (var i = 0; i < DUMMY_NOTIF.length; i++) {
+    User currentUser = DUMMY_USERS
+        .where((element) => element.username == DUMMY_NOTIF[i].username)
+        .toList()[0];
     list.add(
       Column(
         children: [
@@ -43,16 +46,11 @@ Widget ActivityBuilder(context, List<Notif> DUMMY_NOTIF) {
                 child: CircleAvatar(
                   radius: 30,
                   backgroundColor: AppColors.primary,
-                  child: Image.network(
-                    "https://icon-library.com/images/profile-icon/profile-icon-22.jpg",
-                    fit: BoxFit.fitHeight,
+                  backgroundImage: NetworkImage(
+                    currentUser.photo,
                   ),
                 ),
                 onTap: () {
-                  User currentUser = DUMMY_USERS
-                      .where((element) =>
-                          element.username == "${DUMMY_NOTIF[i].username}")
-                      .toList()[0];
                   Navigator.pushNamed(context, ProfileView.routeName,
                       arguments: currentUser.id);
                 },
@@ -63,7 +61,7 @@ Widget ActivityBuilder(context, List<Notif> DUMMY_NOTIF) {
                       style: kLabelStyle,
                       children: <TextSpan>[
                         TextSpan(
-                          text: "      ${DUMMY_NOTIF[i].username}:  ",
+                          text: "   ${DUMMY_NOTIF[i].username}:  ",
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
                           ),
@@ -84,22 +82,21 @@ Widget ActivityBuilder(context, List<Notif> DUMMY_NOTIF) {
                     }
                   }),
               const Spacer(),
-              DUMMY_NOTIF[i].text == "following you"
-              ? ElevatedButton(
-                onPressed: () {
-
-                },
-                child: Text(
-                  "Follow",
-                  style: kSmallButtonDarkTextStyle,
-                ),
-                style: ElevatedButton.styleFrom(
-                  fixedSize: const Size(100, 30),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                ),
-              ):SizedBox.shrink(),
+              DUMMY_NOTIF[i].text == "is following you"
+                  ? ElevatedButton(
+                      onPressed: () {},
+                      child: Text(
+                        "Follow",
+                        style: kSmallButtonDarkTextStyle,
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        fixedSize: const Size(100, 30),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                      ),
+                    )
+                  : SizedBox.shrink(),
             ],
           ),
           SizedBox(

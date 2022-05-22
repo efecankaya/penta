@@ -7,6 +7,7 @@ import 'package:penta/model/comment.dart';
 import 'package:penta/routes/profile_view.dart';
 import 'package:penta/model/dummy_data.dart';
 import 'package:penta/model/user.dart';
+
 class PostView extends StatefulWidget {
   _PostViewState createState() => _PostViewState();
 
@@ -22,10 +23,13 @@ class _PostViewState extends State<PostView> {
   @override
   Widget build(BuildContext context) {
     final currentPost = widget.currentPost;
+    User currentUser = DUMMY_USERS
+        .where((element) => element.username == currentPost.username)
+        .toList()[0];
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          currentPost.image,
+          "Post",
           style: kAppBarTitleTextStyle,
         ),
         backgroundColor: AppColors.primary,
@@ -43,18 +47,13 @@ class _PostViewState extends State<PostView> {
                   GestureDetector(
                     child: CircleAvatar(
                       backgroundColor: AppColors.primary,
-                      child: Image.network(
-                        "https://icon-library.com/images/profile-icon/profile-icon-22.jpg",
-                        fit: BoxFit.fitHeight,
+                      backgroundImage: NetworkImage(
+                        currentUser.photo,
                       ),
                     ),
                     //Find user based on username, push that user's profile to the navigation stack.
                     //Find method subject to change.
                     onTap: () {
-                      User currentUser = DUMMY_USERS
-                          .where((element) =>
-                              element.username == currentPost.username)
-                          .toList()[0];
                       Navigator.pushNamed(context, ProfileView.routeName,
                           arguments: currentUser.id);
                     },
@@ -154,9 +153,8 @@ class _PostViewState extends State<PostView> {
                 children: [
                   CircleAvatar(
                     backgroundColor: AppColors.quaternary,
-                    child: Image.network(
-                      "https://icon-library.com/images/profile-icon/profile-icon-22.jpg",
-                      fit: BoxFit.fitHeight,
+                    backgroundImage: NetworkImage(
+                      "https://i01.sozcucdn.com/wp-content/uploads/2021/03/11/iecrop/elonmusk-reuters_16_9_1615464321.jpg",
                     ),
                     radius: 15,
                   ),
@@ -185,7 +183,7 @@ class _PostViewState extends State<PostView> {
                 style: kFadedLabelStyle,
               ),
             ),
-            getComments(context,currentPost.comments),
+            getComments(context, currentPost.comments),
             const SizedBox(
               height: 200,
             ),
@@ -209,49 +207,42 @@ Widget getTopics(List<String> strings) {
 }
 
 //Returns every comment as a Column widget
-Widget getComments(context,List<Comment> comments) {
+Widget getComments(context, List<Comment> comments) {
   var list = <Widget>[];
   for (var i = 0; i < comments.length; i++) {
     list.add(
-        GestureDetector(
-      child: Row(
-        children: [
-
-         Container(
-            padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 10),
-            child: RichText(
-              text: TextSpan(
-                style: kLabelStyle,
-                children: <TextSpan>[
-                  TextSpan(
-                    text: "${comments[i].username}  ",
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-
+      GestureDetector(
+        child: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 10),
+              child: RichText(
+                text: TextSpan(
+                  style: kLabelStyle,
+                  children: <TextSpan>[
+                    TextSpan(
+                      text: "${comments[i].username}  ",
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-
-                  ),
-                  TextSpan(
-                    text: comments[i].text,
-                  ),
-                ],
+                    TextSpan(
+                      text: comments[i].text,
+                    ),
+                  ],
+                ),
               ),
             ),
-
-          ),
-
-        ],
+          ],
         ),
-            onTap: () {
-    User currentUser = DUMMY_USERS
-        .where((element) =>
-    element.username == "${comments[i].username}")
-        .toList()[0];
-    Navigator.pushNamed(context, ProfileView.routeName,
-    arguments: currentUser.id);
-    },
+        onTap: () {
+          User currentUser = DUMMY_USERS
+              .where((element) => element.username == "${comments[i].username}")
+              .toList()[0];
+          Navigator.pushNamed(context, ProfileView.routeName,
+              arguments: currentUser.id);
+        },
       ),
-
     );
   }
   return Column(children: list);
