@@ -205,28 +205,26 @@ class _SignUpViewState extends State<SignUpView> {
                           onPressed: () async {
                             if (_formKey.currentState!.validate()) {
                               _formKey.currentState!.save();
-                              var result = await Authentication.signUpWithEmail(
-                                email: email,
-                                password: password,
-                              );
-                              if (result is bool) {
-                                if (result) {
-                                  final SharedPreferences prefs =
-                                      await SharedPreferences.getInstance();
-                                  prefs.setBool("loggedIn", true);
-                                  Navigator.pushNamedAndRemoveUntil(
-                                    context,
-                                    "/",
-                                    (r) => false,
-                                    arguments:
-                                        RootArguments(initialLoad: false),
-                                  );
-                                } else {
-                                  _showDialog(
-                                      "Signup Failed", "try again later");
-                                }
+                              String result =
+                                  await Authentication.signUpWithEmail(
+                                      email: email, password: password);
+                              if (result == 'weak-password') {
+                                _showDialog("Signup Error", 'The password provided is too weak.');
+                              } else if (result == 'email-already-in-use') {
+                                _showDialog("Signup Error", 'An account already exists for this email.');
+                              } else if (result == "success") {
+                                final SharedPreferences prefs =
+                                await SharedPreferences.getInstance();
+                                prefs.setBool("loggedIn", true);
+                                Navigator.pushNamedAndRemoveUntil(
+                                  context,
+                                  "/",
+                                      (r) => false,
+                                  arguments:
+                                  RootArguments(initialLoad: false),
+                                );
                               } else {
-                                _showDialog("Signup Failed", result);
+                                _showDialog("Signup Error", 'An unknown error has occurred.');
                               }
                             }
                           },

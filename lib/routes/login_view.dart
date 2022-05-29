@@ -7,6 +7,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:penta/util/arguments.dart';
 import 'package:penta/firebase/analytics.dart';
 import 'package:penta/firebase/authentication.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginView extends StatefulWidget {
   @override
@@ -166,26 +167,28 @@ class _LoginViewState extends State<LoginView> {
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
                           _formKey.currentState!.save();
-                          var result = await Authentication.loginWithEmail(
-                            email: email,
-                            password: password,
-                          );
-                          if (result is bool) {
-                            if (result) {
-                              final SharedPreferences prefs =
-                                  await SharedPreferences.getInstance();
-                              prefs.setBool("loggedIn", true);
-                              Navigator.pushNamedAndRemoveUntil(
-                                context,
-                                "/",
-                                (r) => false,
-                                arguments: RootArguments(initialLoad: false),
-                              );
-                            } else {
-                              _showDialog("Login Failed", "try again later");
-                            }
+
+                          String result = await Authentication.loginWithEmail(
+                              email: email, password: password);
+
+                          if (result == 'user-not-found') {
+                            _showDialog(
+                                "Login error", 'No user found for this email.');
+                          } else if (result == 'wrong-password') {
+                            _showDialog("Login error",
+                                'Wrong password provided for this user.');
+                          } else if (result == "success") {
+                            final SharedPreferences prefs =
+                                await SharedPreferences.getInstance();
+                            prefs.setBool("loggedIn", true);
+                            Navigator.pushNamedAndRemoveUntil(
+                              context,
+                              "/",
+                              (r) => false,
+                              arguments: RootArguments(initialLoad: false),
+                            );
                           } else {
-                            _showDialog("Login Failed", result);
+                            _showDialog("Login Error", 'An unknown error has occurred.');
                           }
                         }
                       },
