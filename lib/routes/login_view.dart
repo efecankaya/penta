@@ -5,6 +5,8 @@ import 'package:penta/util/screenSizes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:penta/util/arguments.dart';
+import 'package:penta/firebase/analytics.dart';
+import 'package:penta/firebase/authentication.dart';
 
 class LoginView extends StatefulWidget {
   @override
@@ -18,7 +20,6 @@ class _LoginViewState extends State<LoginView> {
   String email = "";
   String password = "";
 
-  /*
   Future<void> _showDialog(String title, String message) async {
     return showDialog(
       context: context,
@@ -45,7 +46,7 @@ class _LoginViewState extends State<LoginView> {
       },
     );
   }
-  */
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -165,17 +166,27 @@ class _LoginViewState extends State<LoginView> {
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
                           _formKey.currentState!.save();
-                          final SharedPreferences prefs =
-                              await SharedPreferences.getInstance();
-                          prefs.setBool("loggedIn", true);
-                          Navigator.pushNamedAndRemoveUntil(
-                            context,
-                            "/",
-                            (r) => false,
-                            arguments: RootArguments(initialLoad: false),
+                          var result = await Authentication.loginWithEmail(
+                            email: email,
+                            password: password,
                           );
-                        } else {
-                          //_showDialog('Error', 'Please input a valid email');
+                          if (result is bool) {
+                            if (result) {
+                              final SharedPreferences prefs =
+                                  await SharedPreferences.getInstance();
+                              prefs.setBool("loggedIn", true);
+                              Navigator.pushNamedAndRemoveUntil(
+                                context,
+                                "/",
+                                (r) => false,
+                                arguments: RootArguments(initialLoad: false),
+                              );
+                            } else {
+                              _showDialog("Login Failed", "try again later");
+                            }
+                          } else {
+                            _showDialog("Login Failed", result);
+                          }
                         }
                       },
                     ),

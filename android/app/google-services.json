@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "548157334438",
+    "project_id": "penta-sabanci",
+    "storage_bucket": "penta-sabanci.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:548157334438:android:d6e3ae3a6070a071936567",
+        "android_client_info": {
+          "package_name": "com.efecankaya.penta"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "548157334438-lh5ks2bfbofd177r9vvo58e380rr6omd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBr4CB0t6ZJAoj9j087F8xxQrSngPzF__0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "548157334438-lh5ks2bfbofd177r9vvo58e380rr6omd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

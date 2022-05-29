@@ -5,6 +5,8 @@ import 'package:penta/util/screenSizes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:penta/util/arguments.dart';
+import 'package:penta/firebase/analytics.dart';
+import 'package:penta/firebase/authentication.dart';
 
 class SignUpView extends StatefulWidget {
   @override
@@ -18,6 +20,33 @@ class _SignUpViewState extends State<SignUpView> {
   String username = "";
   String email = "";
   String password = "";
+
+  Future<void> _showDialog(String title, String message) async {
+    return showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(title),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: [
+                Text(message),
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              child: Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            )
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -176,15 +205,29 @@ class _SignUpViewState extends State<SignUpView> {
                           onPressed: () async {
                             if (_formKey.currentState!.validate()) {
                               _formKey.currentState!.save();
-                              final SharedPreferences prefs =
-                                  await SharedPreferences.getInstance();
-                              prefs.setBool("loggedIn", true);
-                              Navigator.pushNamedAndRemoveUntil(
-                                context,
-                                "/",
-                                (r) => false,
-                                arguments: RootArguments(initialLoad: false),
+                              var result = await Authentication.signUpWithEmail(
+                                email: email,
+                                password: password,
                               );
+                              if (result is bool) {
+                                if (result) {
+                                  final SharedPreferences prefs =
+                                      await SharedPreferences.getInstance();
+                                  prefs.setBool("loggedIn", true);
+                                  Navigator.pushNamedAndRemoveUntil(
+                                    context,
+                                    "/",
+                                    (r) => false,
+                                    arguments:
+                                        RootArguments(initialLoad: false),
+                                  );
+                                } else {
+                                  _showDialog(
+                                      "Signup Failed", "try again later");
+                                }
+                              } else {
+                                _showDialog("Signup Failed", result);
+                              }
                             }
                           },
                         ),

@@ -12,11 +12,16 @@ import 'package:penta/routes/edit_profile_view.dart';
 import 'package:penta/routes/settings_view.dart';
 import 'package:penta/routes/walkthrough_view.dart';
 import 'package:penta/util/arguments.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:penta/firebase/analytics.dart';
+import 'package:penta/firebase/authentication.dart';
 
 bool? initialLoad;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   SharedPreferences prefs = await SharedPreferences.getInstance();
   initialLoad = prefs.getBool("initialLoad");
 
@@ -62,7 +67,9 @@ class Penta extends StatelessWidget {
 }
 
 class MainView extends StatefulWidget {
-  const MainView({Key? key}) : super(key: key);
+  const MainView({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<MainView> createState() => _MainViewState();
