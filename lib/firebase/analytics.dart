@@ -11,7 +11,7 @@ class Analytics{
     await analytics.setCurrentScreen(screenName: screenName);
   }
 
-  static Future<void> logCustomEvent(String logName, Map<String, dynamic> map) async {
+  static Future<void> logCustomEvent(String logName, Map<String, dynamic>? map) async {
     await analytics.logEvent(name: logName, parameters: map);
   }
 
@@ -27,5 +27,9 @@ class Analytics{
     await analytics.logEvent(
       name: 'create_post',
     );
+  }
+
+  static Future<void> setUserProperties({required String userId}) async {
+    await analytics.setUserId(id: userId);
   }
 }

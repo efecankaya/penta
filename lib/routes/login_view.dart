@@ -178,6 +178,7 @@ class _LoginViewState extends State<LoginView> {
                             _showDialog("Login error",
                                 'Wrong password provided for this user.');
                           } else if (result == "success") {
+                            Analytics.logLogin();
                             final SharedPreferences prefs =
                                 await SharedPreferences.getInstance();
                             prefs.setBool("loggedIn", true);
@@ -188,7 +189,8 @@ class _LoginViewState extends State<LoginView> {
                               arguments: RootArguments(initialLoad: false),
                             );
                           } else {
-                            _showDialog("Login Error", 'An unknown error has occurred.');
+                            _showDialog("Login Error",
+                                'An unknown error has occurred.');
                           }
                         }
                       },

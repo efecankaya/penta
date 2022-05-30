@@ -50,6 +50,12 @@ class Penta extends StatelessWidget {
             RootArguments args = settings.arguments! as RootArguments;
             i = args.initialLoad!;
           }
+          if (i) {
+            Analytics.logCustomEvent(
+              "walkthrough_view",
+              null,
+            );
+          }
           return MaterialPageRoute(
             builder: (_) => i ? WalkthroughView() : MainView(),
           );
@@ -82,14 +88,20 @@ class _MainViewState extends State<MainView> {
   //These are for the bottom navigation bar (and for it to be persistent).
   //Each tab should have its own navigation stack.
   int currentIndex = 0;
-  String currentPage = "feed";
-  List<String> pageKeys = ["feed", "search", "upload", "messages", "profile"];
+  String currentPage = "feed_view";
+  List<String> pageKeys = [
+    "feed_view",
+    "search_view",
+    "upload_view",
+    "messages_view",
+    "profile_view"
+  ];
   final Map<String, GlobalKey<NavigatorState>> _navigatorKeys = {
-    "feed": GlobalKey<NavigatorState>(),
-    "search": GlobalKey<NavigatorState>(),
-    "upload": GlobalKey<NavigatorState>(),
-    "messages": GlobalKey<NavigatorState>(),
-    "profile": GlobalKey<NavigatorState>(),
+    "feed_view": GlobalKey<NavigatorState>(),
+    "search_view": GlobalKey<NavigatorState>(),
+    "upload_view": GlobalKey<NavigatorState>(),
+    "messages_view": GlobalKey<NavigatorState>(),
+    "profile_view": GlobalKey<NavigatorState>(),
   };
 
   //If user taps on the tab that they are already on,
@@ -144,21 +156,41 @@ class _MainViewState extends State<MainView> {
           } else if (settings.name == ProfileView.routeName) {
             //Add a user's profile view to this tab's navigation stack.
             int userId = settings.arguments as int? ?? 0;
+            Analytics.logCustomEvent(
+              "profile_view",
+              {"user_id": userId},
+            );
             return MaterialPageRoute(
                 builder: (_) => ProfileView(userId: userId));
           } else if (settings.name == PostView.routeName) {
             //Add a post view to this tab's navigation stack.
             var currentPost = settings.arguments as Post;
+            Analytics.logCustomEvent(
+              "post_view",
+              {"post_id": currentPost.id},
+            );
             return MaterialPageRoute(builder: (_) => PostView(currentPost));
           } else if (settings.name == EditProfileView.routeName) {
             int userId = settings.arguments as int? ?? 0;
+            Analytics.logCustomEvent(
+              "edit_profile_view",
+              {"user_id": userId},
+            );
             return MaterialPageRoute(builder: (_) => EditProfileView(userId));
           } else if (settings.name == SettingsView.routeName) {
+            Analytics.logCustomEvent(
+              "settings_view",
+              null,
+            );
             return MaterialPageRoute(builder: (_) => SettingsView());
           } else {
             return MaterialPageRoute(
               builder: (_) => Scaffold(
-                body: Container(),
+                body: Container(
+                  child: Center(
+                    child: Text("Unknown page."),
+                  ),
+                ),
               ),
             );
           }
@@ -202,6 +234,10 @@ class _MainViewState extends State<MainView> {
       //User pressed log out in the profile view.
       loggedIn = false;
       exit = false;
+      Analytics.logCustomEvent(
+        "welcome_view",
+        null,
+      );
       return const WelcomeView();
     }
 
@@ -217,6 +253,10 @@ class _MainViewState extends State<MainView> {
       );
     } else if (!l) {
       //If user is not logged in
+      Analytics.logCustomEvent(
+        "welcome_view",
+        null,
+      );
       return const WelcomeView();
     } else {
       //If user is logged in
@@ -224,11 +264,11 @@ class _MainViewState extends State<MainView> {
         child: Scaffold(
           body: Stack(
             children: [
-              _buildOffstageNavigator("feed", refresh),
-              _buildOffstageNavigator("search", refresh),
-              _buildOffstageNavigator("upload", refresh),
-              _buildOffstageNavigator("messages", refresh),
-              _buildOffstageNavigator("profile", refresh),
+              _buildOffstageNavigator("feed_view", refresh),
+              _buildOffstageNavigator("search_view", refresh),
+              _buildOffstageNavigator("upload_view", refresh),
+              _buildOffstageNavigator("messages_view", refresh),
+              _buildOffstageNavigator("profile_view", refresh),
             ],
           ),
           bottomNavigationBar: BottomNavigationBar(
@@ -240,6 +280,7 @@ class _MainViewState extends State<MainView> {
             currentIndex: currentIndex,
             onTap: (index) {
               _selectTab(pageKeys[index], index);
+              Analytics.logCustomEvent(pageKeys[index], null);
             },
             items: const [
               BottomNavigationBarItem(
@@ -275,8 +316,8 @@ class _MainViewState extends State<MainView> {
           final isFirstRouteInCurrentTab =
               !await _navigatorKeys[currentPage]!.currentState!.maybePop();
           if (isFirstRouteInCurrentTab) {
-            if (currentPage != "feed") {
-              _selectTab("feed", 0);
+            if (currentPage != "feed_view") {
+              _selectTab("feed_view", 0);
               return false;
             }
           }

@@ -4,6 +4,7 @@ import 'package:penta/routes/signup_view.dart';
 import 'package:penta/util/colors.dart';
 import 'package:penta/util/dimensions.dart';
 import 'package:penta/util/styles.dart';
+import 'package:penta/firebase/analytics.dart';
 
 class WelcomeView extends StatelessWidget {
   const WelcomeView({Key? key}) : super(key: key);
@@ -113,6 +114,10 @@ class WelcomeView extends StatelessWidget {
                         Expanded(
                           child: OutlinedButton(
                             onPressed: () {
+                              Analytics.logCustomEvent(
+                                "signup_view",
+                                null,
+                              );
                               Navigator.pushNamed(
                                   context, SignUpView.routeName);
                             },
@@ -139,6 +144,10 @@ class WelcomeView extends StatelessWidget {
                       children: [
                         GestureDetector(
                           onTap: () {
+                            Analytics.logCustomEvent(
+                              "login_view",
+                              null,
+                            );
                             Navigator.pushNamed(context, LoginView.routeName);
                           },
                           child: RichText(

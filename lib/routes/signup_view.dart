@@ -209,22 +209,25 @@ class _SignUpViewState extends State<SignUpView> {
                                   await Authentication.signUpWithEmail(
                                       email: email, password: password);
                               if (result == 'weak-password') {
-                                _showDialog("Signup Error", 'The password provided is too weak.');
+                                _showDialog("Signup Error",
+                                    'The password provided is too weak.');
                               } else if (result == 'email-already-in-use') {
-                                _showDialog("Signup Error", 'An account already exists for this email.');
+                                _showDialog("Signup Error",
+                                    'An account already exists for this email.');
                               } else if (result == "success") {
+                                Analytics.logSignUp();
                                 final SharedPreferences prefs =
-                                await SharedPreferences.getInstance();
+                                    await SharedPreferences.getInstance();
                                 prefs.setBool("loggedIn", true);
                                 Navigator.pushNamedAndRemoveUntil(
                                   context,
                                   "/",
-                                      (r) => false,
-                                  arguments:
-                                  RootArguments(initialLoad: false),
+                                  (r) => false,
+                                  arguments: RootArguments(initialLoad: false),
                                 );
                               } else {
-                                _showDialog("Signup Error", 'An unknown error has occurred.');
+                                _showDialog("Signup Error",
+                                    'An unknown error has occurred.');
                               }
                             }
                           },

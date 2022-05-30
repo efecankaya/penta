@@ -3,6 +3,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:penta/routes/post_view.dart';
 import 'package:penta/model/dummy_data.dart';
 import 'package:penta/model/post.dart';
+import 'package:penta/firebase/analytics.dart';
 
 //This currently only works for a fixed number of posts that are indexed.
 //Subject to change when we add Firebase to the project.
