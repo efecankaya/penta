@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:penta/routes/google_view.dart';
 import 'package:penta/routes/login_view.dart';
 import 'package:penta/routes/signup_view.dart';
 import 'package:penta/util/colors.dart';
 import 'package:penta/util/dimensions.dart';
 import 'package:penta/util/styles.dart';
 import 'package:penta/firebase/analytics.dart';
-import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:penta/util/arguments.dart';
 
 class WelcomeView extends StatelessWidget {
   const WelcomeView({Key? key}) : super(key: key);
@@ -66,7 +62,7 @@ class WelcomeView extends StatelessWidget {
                               height: 23,
                             ),
                             onPressed: () {
-
+                              //Facebook signup
                             },
                             label: Padding(
                               padding:
@@ -92,22 +88,8 @@ class WelcomeView extends StatelessWidget {
                               width: 23,
                               height: 23,
                             ),
-                            onPressed: () async {
-                              var googleSignIn = await Get.put(LoginController()).login();
-                              if(googleSignIn != null)
-                                {
-                                  final SharedPreferences prefs =
-                                      await SharedPreferences.getInstance();
-                                  prefs.setBool("loggedIn", true);
-                                  Navigator.pushNamedAndRemoveUntil(
-                                    context,
-                                    "/",
-                                        (r) => false,
-                                    arguments: RootArguments(initialLoad: false),
-                                  );
-
-
-                                }
+                            onPressed: () {
+                              //Google signup
                             },
                             label: Padding(
                               padding:
