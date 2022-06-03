@@ -11,6 +11,8 @@ import 'package:penta/routes/edit_profile_view.dart';
 import 'package:penta/routes/settings_view.dart';
 import 'package:penta/util/arguments.dart';
 import 'package:penta/firebase/analytics.dart';
+import 'package:penta/routes/google_view.dart';
+import 'package:get/get.dart';
 
 class ProfileView extends StatefulWidget {
   final int userId;
@@ -109,6 +111,7 @@ class _ProfileViewState extends State<ProfileView>
                                   final SharedPreferences prefs =
                                       await SharedPreferences.getInstance();
                                   prefs.setBool("loggedIn", false);
+                                  Get.put(LoginController()).logout();
                                   Navigator.pushNamedAndRemoveUntil(
                                     context,
                                     "/",
