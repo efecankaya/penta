@@ -16,14 +16,11 @@ import 'package:get/get.dart';
 
 class ProfileView extends StatefulWidget {
   final int userId;
-
   const ProfileView({required this.userId});
-
   @override
   State<ProfileView> createState() => _ProfileViewState();
   static const String routeName = '/profile';
 }
-
 class _ProfileViewState extends State<ProfileView>
     with SingleTickerProviderStateMixin {
   final List<Widget> myTabs = [
@@ -217,14 +214,12 @@ class _ProfileViewState extends State<ProfileView>
     _tabController = TabController(length: 2, vsync: this);
     super.initState();
   }
-
   @override
   void dispose() {
     _tabController.dispose();
     _scrollController.dispose();
     super.dispose();
   }
-
   //Get the posts of this user
   _buildTabContext(String username) => Container(
         child: ListView.builder(
@@ -235,7 +230,6 @@ class _ProfileViewState extends State<ProfileView>
           },
         ),
       );
-
   @override
   Widget build(BuildContext context) {
     int userId = widget.userId;
