@@ -1,4 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:penta/routes/create_profile_view.dart';
 
 class Authentication {
   static final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
@@ -8,8 +10,7 @@ class Authentication {
     required String password,
   }) async {
     try {
-      UserCredential userCredential =
-          await firebaseAuth.signInWithEmailAndPassword(
+      UserCredential userCredential = await firebaseAuth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
@@ -20,6 +21,7 @@ class Authentication {
   }
 
   static Future<String> signUpWithEmail({
+    required BuildContext context,
     required String email,
     required String password,
   }) async {

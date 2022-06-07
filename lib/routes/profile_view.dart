@@ -34,7 +34,7 @@ class _ProfileViewState extends State<ProfileView>
   Widget _buildCarousel() {
     int userId = widget.userId;
     //Get the user from its id as a User object. Find method subject to change.
-    User currentUser =
+    Profile currentUser =
         DUMMY_USERS.where((element) => element.id == userId).toList()[0];
     return Column(
       children: [
@@ -234,7 +234,7 @@ class _ProfileViewState extends State<ProfileView>
   Widget build(BuildContext context) {
     int userId = widget.userId;
     //Get user by their id. Find method subject to change.
-    User currentUser =
+    Profile currentUser =
         DUMMY_USERS.where((element) => element.id == userId).toList()[0];
     return DefaultTabController(
       length: 2,

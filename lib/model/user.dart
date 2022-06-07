@@ -1,4 +1,4 @@
-class User {
+class Profile {
   final int id;
   final String username;
   final String email;
@@ -8,7 +8,7 @@ class User {
   final Map followers;
   final Map following;
 
-  const User({
+  const Profile({
     required this.id,
     required this.username,
     required this.email,

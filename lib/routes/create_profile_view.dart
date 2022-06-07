@@ -3,22 +3,28 @@ import 'package:penta/util/colors.dart';
 import 'package:penta/util/styles.dart';
 import 'package:penta/model/user.dart';
 import 'package:penta/model/dummy_data.dart';
+import 'package:penta/firebase/analytics.dart';
+import 'package:penta/firebase/authentication.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:penta/util/arguments.dart';
 
-class EditProfileView extends StatefulWidget {
+class CreateProfileView extends StatefulWidget {
   final int userId;
+  final User? user = Authentication.firebaseAuth.currentUser;
 
-  EditProfileView(this.userId);
+  CreateProfileView(this.userId);
 
   @override
-  State<EditProfileView> createState() => _EditProfileViewState();
-  static const String routeName = '/profile/edit';
+  State<CreateProfileView> createState() => _CreateProfileViewState();
+  static const String routeName = '/profile/create';
 }
 
-class _EditProfileViewState extends State<EditProfileView> {
+class _CreateProfileViewState extends State<CreateProfileView> {
   @override
   Widget build(BuildContext context) {
     Profile currentUser =
-        DUMMY_USERS.where((element) => element.id == widget.userId).toList()[0];
+    DUMMY_USERS.where((element) => element.id == widget.userId).toList()[0];
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -161,7 +167,18 @@ class _EditProfileViewState extends State<EditProfileView> {
                     ),
                   ),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      Analytics.logSignUp();
+                      final SharedPreferences prefs =
+                          await SharedPreferences.getInstance();
+                      prefs.setBool("loggedIn", true);
+                      Navigator.pushNamedAndRemoveUntil(
+                        context,
+                        "/",
+                            (r) => false,
+                        arguments: RootArguments(initialLoad: false),
+                      );
+                    },
                     child: Text(
                       "SAVE",
                       style: kSmallButtonDarkTextStyle,

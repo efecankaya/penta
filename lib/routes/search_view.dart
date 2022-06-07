@@ -24,7 +24,7 @@ class _SearchViewState extends State<SearchView>
   late ScrollController _scrollController;
 
   List<Post> posts = DUMMY_POSTS;
-  List<User> users = DUMMY_USERS;
+  List<Profile> users = DUMMY_USERS;
   String query = '';
 
   @override
@@ -185,7 +185,7 @@ class _SearchWidgetState extends State<SearchWidget> {
   }
 }
 
-Widget AccountSearch(context, List<User> Users) {
+Widget AccountSearch(context, List<Profile> Users) {
   var list = <Widget>[];
   for (var i = 0; i < Users.length; i++) {
     list.add(
@@ -219,7 +219,7 @@ Widget AccountSearch(context, List<User> Users) {
               ],
             ),
             onTap: () {
-              User currentUser = DUMMY_USERS
+              Profile currentUser = DUMMY_USERS
                   .where(
                       (element) => element.username == "${Users[i].username}")
                   .toList()[0];

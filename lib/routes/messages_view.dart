@@ -35,7 +35,7 @@ class MessagesView extends StatelessWidget {
 Widget ActivityBuilder(context, List<Notif> DUMMY_NOTIF) {
   var list = <Widget>[];
   for (var i = 0; i < DUMMY_NOTIF.length; i++) {
-    User currentUser = DUMMY_USERS
+    Profile currentUser = DUMMY_USERS
         .where((element) => element.username == DUMMY_NOTIF[i].username)
         .toList()[0];
     list.add(

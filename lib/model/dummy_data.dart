@@ -5,7 +5,7 @@ import 'package:penta/model/user.dart';
 
 //This data will get replaced by firebase in the future
 final DUMMY_USERS = [
-  User(
+  Profile(
     id: 0,
     username: "elonmusk",
     email: "iamelon@gmail.com",
@@ -16,7 +16,7 @@ final DUMMY_USERS = [
     followers: Map(),
     following: Map(),
   ),
-  User(
+  Profile(
     id: 1,
     username: "jeffreyBezos",
     email: "bezosJeff@gmail.com",
@@ -27,7 +27,7 @@ final DUMMY_USERS = [
     followers: Map(),
     following: Map(),
   ),
-  User(
+  Profile(
     id: 2,
     username: "harryP",
     email: "thepotter@gmail.com",
@@ -38,7 +38,7 @@ final DUMMY_USERS = [
     followers: Map(),
     following: Map(),
   ),
-  User(
+  Profile(
     id: 3,
     username: "jMou",
     email: "josemourinho@gmail.com",
@@ -49,7 +49,7 @@ final DUMMY_USERS = [
     followers: Map(),
     following: Map(),
   ),
-  User(
+  Profile(
     id: 4,
     username: "vfb1",
     email: "vfab@gmail.com",
@@ -59,7 +59,7 @@ final DUMMY_USERS = [
     followers: Map(),
     following: Map(),
   ),
-  User(
+  Profile(
     id: 5,
     username: "OfficialAyseNur",
     email: "aysecakmakofficial@gmail.com",
@@ -69,7 +69,7 @@ final DUMMY_USERS = [
     followers: Map(),
     following: Map(),
   ),
-  User(
+  Profile(
     id: 6,
     username: "ulmErg",
     email: "ulmerg@gmail.com",
@@ -79,7 +79,7 @@ final DUMMY_USERS = [
     followers: Map(),
     following: Map(),
   ),
-  User(
+  Profile(
     id: 7,
     username: "JJmanager",
     email: "jesus@gmail.com",
@@ -89,7 +89,7 @@ final DUMMY_USERS = [
     followers: Map(),
     following: Map(),
   ),
-  User(
+  Profile(
     id: 8,
     username: "erayelvan77",
     email: "erayelvan@gmail.com",
@@ -99,7 +99,7 @@ final DUMMY_USERS = [
     followers: Map(),
     following: Map(),
   ),
-  User(
+  Profile(
     id: 9,
     username: "cankarsal",
     email: "cankarsal@gmail.com",
@@ -109,7 +109,7 @@ final DUMMY_USERS = [
     followers: Map(),
     following: Map(),
   ),
-  User(
+  Profile(
     id: 10,
     username: "DemetMutlu",
     email: "demet1mutlu@gmail.com",
@@ -119,7 +119,7 @@ final DUMMY_USERS = [
     followers: Map(),
     following: Map(),
   ),
-  User(
+  Profile(
     id: 11,
     username: "eloyazi",
     email: "eloya@gmail.com",
@@ -129,7 +129,7 @@ final DUMMY_USERS = [
     followers: Map(),
     following: Map(),
   ),
-  User(
+  Profile(
     id: 12,
     username: "erenbali",
     email: "erenbali@gmail.com",

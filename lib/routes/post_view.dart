@@ -23,7 +23,7 @@ class _PostViewState extends State<PostView> {
   @override
   Widget build(BuildContext context) {
     final currentPost = widget.currentPost;
-    User currentUser = DUMMY_USERS
+    Profile currentUser = DUMMY_USERS
         .where((element) => element.username == currentPost.username)
         .toList()[0];
     return Scaffold(
@@ -237,7 +237,7 @@ Widget getComments(context, List<Comment> comments) {
           ],
         ),
         onTap: () {
-          User currentUser = DUMMY_USERS
+          Profile currentUser = DUMMY_USERS
               .where((element) => element.username == comments[i].username)
               .toList()[0];
           Navigator.pushNamed(context, ProfileView.routeName,

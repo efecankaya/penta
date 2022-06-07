@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:penta/routes/login_view.dart';
 import 'package:penta/routes/signup_view.dart';
+import 'package:penta/routes/create_profile_view.dart';
 import 'package:penta/routes/welcome_view.dart';
 import 'package:penta/routes/post_view.dart';
 import 'package:penta/routes/profile_view.dart';
@@ -56,6 +57,11 @@ class Penta extends StatelessWidget {
           }
           return MaterialPageRoute(
             builder: (_) => i ? WalkthroughView() : MainView(),
+          );
+        }
+        else if (settings.name == "/profile/create") {
+          return MaterialPageRoute(
+            builder: (_) => CreateProfileView(0),
           );
         }
       },

@@ -7,6 +7,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:penta/util/arguments.dart';
 import 'package:penta/firebase/analytics.dart';
 import 'package:penta/firebase/authentication.dart';
+import 'package:penta/routes/create_profile_view.dart';
 
 class SignUpView extends StatefulWidget {
   @override
@@ -207,7 +208,9 @@ class _SignUpViewState extends State<SignUpView> {
                               _formKey.currentState!.save();
                               String result =
                                   await Authentication.signUpWithEmail(
-                                      email: email, password: password);
+                                      context: context,
+                                      email: email,
+                                      password: password);
                               if (result == 'weak-password') {
                                 _showDialog("Signup Error",
                                     'The password provided is too weak.');
@@ -215,16 +218,7 @@ class _SignUpViewState extends State<SignUpView> {
                                 _showDialog("Signup Error",
                                     'An account already exists for this email.');
                               } else if (result == "success") {
-                                Analytics.logSignUp();
-                                final SharedPreferences prefs =
-                                    await SharedPreferences.getInstance();
-                                prefs.setBool("loggedIn", true);
-                                Navigator.pushNamedAndRemoveUntil(
-                                  context,
-                                  "/",
-                                  (r) => false,
-                                  arguments: RootArguments(initialLoad: false),
-                                );
+                                Navigator.pushNamed(context, CreateProfileView.routeName);
                               } else {
                                 _showDialog("Signup Error",
                                     'An unknown error has occurred.');
