@@ -102,8 +102,8 @@ Widget ActivityBuilder(context, List<Notif> DUMMY_NOTIF) {
               DUMMY_NOTIF[i].text.contains('post') || DUMMY_NOTIF[i].text.contains('photo')
                   ? GestureDetector(
                       child:Container(
-                        child: Image.asset(
-                          DUMMY_POSTS[DUMMY_NOTIF[i].postId].image,
+                        child: Image.network(
+                          DUMMY_POSTS[0].mediaUrl,
                           scale: 4.7,
                         ),
                         height: 60,

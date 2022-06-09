@@ -171,7 +171,7 @@ class _MainViewState extends State<MainView> {
             var currentPost = settings.arguments as Post;
             Analytics.logCustomEvent(
               "post_view",
-              {"post_id": currentPost.id},
+              {"post_id": currentPost.ownerId},
             );
             return MaterialPageRoute(builder: (_) => PostView(currentPost));
           } else if (settings.name == EditProfileView.routeName) {

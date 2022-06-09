@@ -23,9 +23,7 @@ class _PostViewState extends State<PostView> {
   @override
   Widget build(BuildContext context) {
     final currentPost = widget.currentPost;
-    Profile currentUser = DUMMY_USERS
-        .where((element) => element.username == currentPost.username)
-        .toList()[0];
+    Profile currentUser = DUMMY_USERS[0];
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -79,8 +77,8 @@ class _PostViewState extends State<PostView> {
                 ],
               ),
             ),
-            Image.asset(
-              currentPost.image,
+            Image.network(
+              currentPost.mediaUrl,
               fit: BoxFit.cover,
               width: screenWidth(context),
               alignment: Alignment.center,
@@ -115,12 +113,6 @@ class _PostViewState extends State<PostView> {
                     "Share",
                     style: kLabelStyle,
                   ),
-                  const Spacer(),
-                  //TODO: format date. example: 2 days ago.
-                  Text(
-                    currentPost.date,
-                    style: kLabelStyle,
-                  ),
                 ],
               ),
             ),
@@ -143,10 +135,12 @@ class _PostViewState extends State<PostView> {
                 ),
               ),
             ),
+            /*
             Container(
               padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
               child: getTopics(currentPost.topics),
             ),
+            */
             Container(
               padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
               child: Row(
@@ -183,7 +177,7 @@ class _PostViewState extends State<PostView> {
                 style: kFadedLabelStyle,
               ),
             ),
-            getComments(context, currentPost.comments),
+            //getComments(context, currentPost.comments),
             const SizedBox(
               height: 200,
             ),

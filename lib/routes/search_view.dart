@@ -46,7 +46,7 @@ class _SearchViewState extends State<SearchView>
           physics: const ClampingScrollPhysics(),
           itemCount: 1,
           itemBuilder: (BuildContext context, int index) {
-            return StaggeredGridPosts.custom(posts: posts);
+            return StaggeredGridPosts(posts: posts);
           },
         ),
       );

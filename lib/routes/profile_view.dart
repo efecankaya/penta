@@ -226,7 +226,7 @@ class _ProfileViewState extends State<ProfileView>
           physics: const ClampingScrollPhysics(),
           itemCount: 1,
           itemBuilder: (BuildContext context, int index) {
-            return StaggeredGridPosts(username: username);
+            return StaggeredGridPosts(posts: DUMMY_POSTS);
           },
         ),
       );
