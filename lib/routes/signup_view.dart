@@ -8,6 +8,8 @@ import 'package:penta/util/arguments.dart';
 import 'package:penta/firebase/analytics.dart';
 import 'package:penta/firebase/authentication.dart';
 import 'package:penta/routes/create_profile_view.dart';
+import 'package:uuid/uuid.dart';
+import 'dart:typed_data';
 
 class SignUpView extends StatefulWidget {
   @override
@@ -210,7 +212,12 @@ class _SignUpViewState extends State<SignUpView> {
                                   await Authentication.signUpWithEmail(
                                       context: context,
                                       email: email,
-                                      password: password);
+                                      password: password,
+                                      username: "testusername",
+                                      name: "testname",
+                                      bio: "testbio",
+                                    file: Uint8List(0),
+                                  );
                               if (result == 'weak-password') {
                                 _showDialog("Signup Error",
                                     'The password provided is too weak.');

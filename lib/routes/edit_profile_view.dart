@@ -18,7 +18,7 @@ class _EditProfileViewState extends State<EditProfileView> {
   @override
   Widget build(BuildContext context) {
     Profile currentUser =
-        DUMMY_USERS.where((element) => element.id == widget.userId).toList()[0];
+        DUMMY_USERS.where((element) => element.uid == widget.userId).toList()[0];
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -47,7 +47,7 @@ class _EditProfileViewState extends State<EditProfileView> {
                         backgroundColor: AppColors.primary,
                         radius: 80,
                         backgroundImage: NetworkImage(
-                          currentUser.photo,
+                          currentUser.photoUrl,
                         ),
                       ),
                     ),

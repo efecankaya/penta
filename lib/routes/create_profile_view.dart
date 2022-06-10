@@ -24,7 +24,7 @@ class _CreateProfileViewState extends State<CreateProfileView> {
   @override
   Widget build(BuildContext context) {
     Profile currentUser =
-    DUMMY_USERS.where((element) => element.id == widget.userId).toList()[0];
+    DUMMY_USERS[0];
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -53,7 +53,7 @@ class _CreateProfileViewState extends State<CreateProfileView> {
                         backgroundColor: AppColors.primary,
                         radius: 80,
                         backgroundImage: NetworkImage(
-                          currentUser.photo,
+                          currentUser.photoUrl,
                         ),
                       ),
                     ),

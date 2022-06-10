@@ -3,6 +3,7 @@ import 'package:penta/util/colors.dart';
 import 'package:penta/util/styles.dart';
 import 'package:penta/util/screenSizes.dart';
 import 'package:penta/model/user.dart';
+import 'package:penta/model/post.dart';
 import 'package:penta/model/dummy_data.dart';
 import 'package:penta/ui/staggered_grid_posts.dart';
 import 'package:penta/ui/popup_menu.dart';
@@ -13,6 +14,10 @@ import 'package:penta/util/arguments.dart';
 import 'package:penta/firebase/analytics.dart';
 import 'package:penta/routes/google_view.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:convert';
+import 'package:penta/firebase/authentication.dart';
 
 class ProfileView extends StatefulWidget {
   final int userId;
@@ -30,12 +35,14 @@ class _ProfileViewState extends State<ProfileView>
   late TabController _tabController;
   late ScrollController _scrollController;
 
+  List<Post>? postList;
+
   //Builds the general information part of the page. (Everything above the tabs)
   Widget _buildCarousel() {
     int userId = widget.userId;
     //Get the user from its id as a User object. Find method subject to change.
     Profile currentUser =
-        DUMMY_USERS.where((element) => element.id == userId).toList()[0];
+        DUMMY_USERS[0];
     return Column(
       children: [
         Padding(
@@ -52,12 +59,12 @@ class _ProfileViewState extends State<ProfileView>
                       backgroundColor: AppColors.primary,
                       radius: 80,
                       backgroundImage: NetworkImage(
-                        currentUser.photo,
+                        currentUser.photoUrl,
                       ),
                     ),
                   ),
                   Spacer(),
-                  currentUser.id == 0
+                  true
                       ? PopupMenu(
                           menuList: [
                             PopupMenuItem(
@@ -109,6 +116,7 @@ class _ProfileViewState extends State<ProfileView>
                                       await SharedPreferences.getInstance();
                                   prefs.setBool("loggedIn", false);
                                   Get.put(LoginController()).logout();
+                                  Authentication.signOut();
                                   Navigator.pushNamedAndRemoveUntil(
                                     context,
                                     "/",
@@ -164,7 +172,7 @@ class _ProfileViewState extends State<ProfileView>
                   ],
                 ),
               ),
-              currentUser.id == 0
+              currentUser.uid == 0
                   ? SizedBox.shrink()
                   : Container(
                       padding: const EdgeInsets.only(top: 10),
@@ -212,8 +220,15 @@ class _ProfileViewState extends State<ProfileView>
   void initState() {
     _scrollController = ScrollController();
     _tabController = TabController(length: 2, vsync: this);
+    getData();
     super.initState();
   }
+
+  getData() async {
+    QuerySnapshot posts = await FirebaseFirestore.instance.collection("Posts").get();
+    postList = posts.docs.map((doc) => Post.fromMap(doc.data() as Map<String,dynamic>)).toList();
+  }
+
   @override
   void dispose() {
     _tabController.dispose();
@@ -226,7 +241,10 @@ class _ProfileViewState extends State<ProfileView>
           physics: const ClampingScrollPhysics(),
           itemCount: 1,
           itemBuilder: (BuildContext context, int index) {
-            return StaggeredGridPosts(posts: DUMMY_POSTS);
+            if(postList == null) {
+              return Text("loading...");
+            }
+            return StaggeredGridPosts(posts: postList!);
           },
         ),
       );
@@ -235,7 +253,7 @@ class _ProfileViewState extends State<ProfileView>
     int userId = widget.userId;
     //Get user by their id. Find method subject to change.
     Profile currentUser =
-        DUMMY_USERS.where((element) => element.id == userId).toList()[0];
+        DUMMY_USERS[0];
     return DefaultTabController(
       length: 2,
       child: Scaffold(

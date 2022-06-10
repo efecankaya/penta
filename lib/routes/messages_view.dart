@@ -35,9 +35,7 @@ class MessagesView extends StatelessWidget {
 Widget ActivityBuilder(context, List<Notif> DUMMY_NOTIF) {
   var list = <Widget>[];
   for (var i = 0; i < DUMMY_NOTIF.length; i++) {
-    Profile currentUser = DUMMY_USERS
-        .where((element) => element.username == DUMMY_NOTIF[i].username)
-        .toList()[0];
+    Profile currentUser = DUMMY_USERS[0];
     list.add(
       Column(
         children: [
@@ -48,12 +46,12 @@ Widget ActivityBuilder(context, List<Notif> DUMMY_NOTIF) {
                   radius: 30,
                   backgroundColor: AppColors.primary,
                   backgroundImage: NetworkImage(
-                    currentUser.photo,
+                    currentUser.photoUrl,
                   ),
                 ),
                 onTap: () {
                   Navigator.pushNamed(context, ProfileView.routeName,
-                      arguments: currentUser.id);
+                      arguments: currentUser.uid);
                 },
               ),
               GestureDetector(
@@ -74,6 +72,7 @@ Widget ActivityBuilder(context, List<Notif> DUMMY_NOTIF) {
                     ),
                   ),
                   onTap: () {
+                    /*
                     if (DUMMY_NOTIF[i].commentincl == true) {
                       Navigator.pushNamed(
                         context,
@@ -81,6 +80,8 @@ Widget ActivityBuilder(context, List<Notif> DUMMY_NOTIF) {
                         arguments: DUMMY_POSTS[DUMMY_NOTIF[i].postId],
                       );
                     }
+
+                     */
                   }),
               const Spacer(),
               DUMMY_NOTIF[i].text == "is following you"
@@ -103,13 +104,14 @@ Widget ActivityBuilder(context, List<Notif> DUMMY_NOTIF) {
                   ? GestureDetector(
                       child:Container(
                         child: Image.network(
-                          DUMMY_POSTS[0].mediaUrl,
+                          "https://ystyangin.com/wp-content/uploads/dummy-image-square.jpg",
                           scale: 4.7,
                         ),
                         height: 60,
                         width: 60,
                       ),
                       onTap: () {
+                        /*
                         if (DUMMY_NOTIF[i].commentincl == true) {
                           Navigator.pushNamed(
                             context,
@@ -117,6 +119,7 @@ Widget ActivityBuilder(context, List<Notif> DUMMY_NOTIF) {
                             arguments: DUMMY_POSTS[DUMMY_NOTIF[i].postId],
                           );
                         }
+                         */
                       }
                     )
                   : SizedBox.shrink(),

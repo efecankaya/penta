@@ -46,14 +46,14 @@ class _PostViewState extends State<PostView> {
                     child: CircleAvatar(
                       backgroundColor: AppColors.primary,
                       backgroundImage: NetworkImage(
-                        currentUser.photo,
+                        currentUser.photoUrl,
                       ),
                     ),
                     //Find user based on username, push that user's profile to the navigation stack.
                     //Find method subject to change.
                     onTap: () {
                       Navigator.pushNamed(context, ProfileView.routeName,
-                          arguments: currentUser.id);
+                          arguments: currentUser.uid);
                     },
                   ),
                   const SizedBox(
@@ -235,7 +235,7 @@ Widget getComments(context, List<Comment> comments) {
               .where((element) => element.username == comments[i].username)
               .toList()[0];
           Navigator.pushNamed(context, ProfileView.routeName,
-              arguments: currentUser.id);
+              arguments: currentUser.uid);
         },
       ),
     );

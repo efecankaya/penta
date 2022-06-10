@@ -218,7 +218,7 @@ Widget AccountSearch(context, List<Profile> Users) {
                   radius: 30,
                   backgroundColor: AppColors.primary,
                   backgroundImage: NetworkImage(
-                    Users[i].photo,
+                    Users[i].photoUrl,
                   ),
                 ),
                 Expanded(
@@ -244,7 +244,7 @@ Widget AccountSearch(context, List<Profile> Users) {
                       (element) => element.username == "${Users[i].username}")
                   .toList()[0];
               Navigator.pushNamed(context, ProfileView.routeName,
-                  arguments: currentUser.id);
+                  arguments: currentUser.uid);
             },
           ),
           SizedBox(
