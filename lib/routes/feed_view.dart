@@ -57,12 +57,8 @@ class _FeedViewState extends State<FeedView> {
   }
 
   _getFeed() async {
-    print("Staring getFeed");
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-
     QuerySnapshot posts = await FirebaseFirestore.instance.collection("Posts").get();
     List<Post> postList = posts.docs.map((doc) => Post.fromMap(doc.data() as Map<String,dynamic>)).toList();
-    print(postList[0].mediaUrl);
     setState(() {
       feedData = postList;
     });

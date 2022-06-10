@@ -6,6 +6,8 @@ import 'package:penta/model/post.dart';
 import 'package:penta/ui/staggered_grid_posts.dart';
 import 'package:penta/model/user.dart';
 import 'package:penta/routes/profile_view.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:convert';
 
 class SearchView extends StatefulWidget {
   @override
@@ -22,9 +24,10 @@ class _SearchViewState extends State<SearchView>
   ];
   late TabController _tabController;
   late ScrollController _scrollController;
-
-  List<Post> posts = DUMMY_POSTS;
+  List<Post>? allPosts;
+  List<Post>? currentPosts;
   List<Profile> users = DUMMY_USERS;
+
   String query = '';
 
   @override
@@ -32,6 +35,7 @@ class _SearchViewState extends State<SearchView>
     _scrollController = ScrollController();
     _tabController = TabController(length: 4, vsync: this);
     super.initState();
+    this.getPosts();
   }
 
   @override
@@ -41,12 +45,28 @@ class _SearchViewState extends State<SearchView>
     super.dispose();
   }
 
-  _buildPostsTabContext(List<Post> posts) => Container(
+  buildPosts() {
+    if (currentPosts != null) {
+      return StaggeredGridPosts(posts: currentPosts!);
+    } else {
+      return Container(
+          alignment: FractionalOffset.center,
+          child: CircularProgressIndicator());
+    }
+  }
+
+  getPosts() async {
+    QuerySnapshot postSnapshot = await FirebaseFirestore.instance.collection("Posts").get();
+    allPosts = postSnapshot.docs.map((doc) => Post.fromMap(doc.data() as Map<String,dynamic>)).toList();
+    currentPosts = allPosts;
+  }
+
+  _buildPostsTabContext(List<Post>? posts) => Container(
         child: ListView.builder(
           physics: const ClampingScrollPhysics(),
           itemCount: 1,
           itemBuilder: (BuildContext context, int index) {
-            return StaggeredGridPosts(posts: posts);
+            return buildPosts();
           },
         ),
       );
@@ -85,7 +105,7 @@ class _SearchViewState extends State<SearchView>
               child: TabBarView(
                 controller: _tabController,
                 children: [
-                  _buildPostsTabContext(posts),
+                  _buildPostsTabContext(currentPosts),
                   AccountSearch(context, users),
                   const Text("The topics will go here"),
                   const Text("The locations will go here"),
@@ -99,7 +119,7 @@ class _SearchViewState extends State<SearchView>
   }
 
   void search(String query) {
-    final posts = DUMMY_POSTS.where((post) {
+    final resultPosts = allPosts!.where((post) {
       final descriptionLower = post.description.toLowerCase();
       final searchLower = query.toLowerCase();
 
@@ -114,7 +134,7 @@ class _SearchViewState extends State<SearchView>
 
     setState(() {
       this.query = query;
-      this.posts = posts;
+      this.currentPosts = resultPosts;
       this.users = users;
     });
   }
