@@ -21,11 +21,14 @@ import 'package:penta/firebase/authentication.dart';
 
 class ProfileView extends StatefulWidget {
   final int userId;
+
   const ProfileView({required this.userId});
+
   @override
   State<ProfileView> createState() => _ProfileViewState();
   static const String routeName = '/profile';
 }
+
 class _ProfileViewState extends State<ProfileView>
     with SingleTickerProviderStateMixin {
   final List<Widget> myTabs = [
@@ -36,13 +39,10 @@ class _ProfileViewState extends State<ProfileView>
   late ScrollController _scrollController;
 
   List<Post>? postList;
+  Profile? currentUser;
 
   //Builds the general information part of the page. (Everything above the tabs)
   Widget _buildCarousel() {
-    int userId = widget.userId;
-    //Get the user from its id as a User object. Find method subject to change.
-    Profile currentUser =
-        DUMMY_USERS[0];
     return Column(
       children: [
         Padding(
@@ -59,7 +59,7 @@ class _ProfileViewState extends State<ProfileView>
                       backgroundColor: AppColors.primary,
                       radius: 80,
                       backgroundImage: NetworkImage(
-                        currentUser.photoUrl,
+                        currentUser!.photoUrl,
                       ),
                     ),
                   ),
@@ -80,7 +80,7 @@ class _ProfileViewState extends State<ProfileView>
                                 Navigator.pushNamed(
                                   context,
                                   EditProfileView.routeName,
-                                  arguments: userId,
+                                  arguments: 0,
                                 );
                               },
                             ),
@@ -142,14 +142,14 @@ class _ProfileViewState extends State<ProfileView>
               Container(
                 padding: const EdgeInsets.only(top: 10),
                 child: Text(
-                  currentUser.name,
+                  currentUser!.name,
                   style: kHeading2TextStyle,
                 ),
               ),
               Container(
                 padding: const EdgeInsets.only(top: 10),
                 child: Text(
-                  currentUser.bio,
+                  currentUser!.bio,
                   style: kLabelStyle,
                 ),
               ),
@@ -159,20 +159,20 @@ class _ProfileViewState extends State<ProfileView>
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "${currentUser.followers.length} followers",
+                      "${currentUser!.followers.length} followers",
                       style: kBoldLabelStyle,
                     ),
                     const SizedBox(
                       width: 12,
                     ),
                     Text(
-                      "${currentUser.following.length} following",
+                      "${currentUser!.following.length} following",
                       style: kBoldLabelStyle,
                     ),
                   ],
                 ),
               ),
-              currentUser.uid == 0
+              currentUser!.uid == 0
                   ? SizedBox.shrink()
                   : Container(
                       padding: const EdgeInsets.only(top: 10),
@@ -216,17 +216,27 @@ class _ProfileViewState extends State<ProfileView>
     );
   }
 
+  getUser() async {
+    currentUser = await Authentication.getCurrentUserDetails();
+    setState(() {});
+  }
+
   @override
   void initState() {
     _scrollController = ScrollController();
     _tabController = TabController(length: 2, vsync: this);
     getData();
+    getUser();
     super.initState();
   }
 
   getData() async {
-    QuerySnapshot posts = await FirebaseFirestore.instance.collection("Posts").get();
-    postList = posts.docs.map((doc) => Post.fromMap(doc.data() as Map<String,dynamic>)).toList();
+    QuerySnapshot posts =
+        await FirebaseFirestore.instance.collection("Posts").get();
+    postList = posts.docs
+        .map((doc) => Post.fromMap(doc.data() as Map<String, dynamic>))
+        .toList();
+    setState(() {});
   }
 
   @override
@@ -235,69 +245,73 @@ class _ProfileViewState extends State<ProfileView>
     _scrollController.dispose();
     super.dispose();
   }
+
   //Get the posts of this user
   _buildTabContext(String username) => Container(
         child: ListView.builder(
           physics: const ClampingScrollPhysics(),
           itemCount: 1,
           itemBuilder: (BuildContext context, int index) {
-            if(postList == null) {
-              return Text("loading...");
+            if (postList == null) {
+              return Container(
+                  alignment: FractionalOffset.center,
+                  child: CircularProgressIndicator());
             }
             return StaggeredGridPosts(posts: postList!);
           },
         ),
       );
+
   @override
   Widget build(BuildContext context) {
-    int userId = widget.userId;
     //Get user by their id. Find method subject to change.
-    Profile currentUser =
-        DUMMY_USERS[0];
-    return DefaultTabController(
-      length: 2,
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(
-            currentUser.username,
-            style: kAppBarTitleTextStyle,
-          ),
-          backgroundColor: AppColors.primary,
-          centerTitle: true,
-          elevation: 0.0,
-        ),
-        body: NestedScrollView(
-          controller: _scrollController,
-          headerSliverBuilder: (context, value) {
-            return [
-              SliverToBoxAdapter(
-                child: _buildCarousel(),
+    return currentUser == null
+        ? Container(
+            alignment: FractionalOffset.center,
+            child: CircularProgressIndicator())
+        : DefaultTabController(
+            length: 2,
+            child: Scaffold(
+              appBar: AppBar(
+                title: Text(
+                  currentUser!.username,
+                  style: kAppBarTitleTextStyle,
+                ),
+                backgroundColor: AppColors.primary,
+                centerTitle: true,
+                elevation: 0.0,
               ),
-              SliverToBoxAdapter(
-                child: Container(
-                  child: TabBar(
-                    indicatorColor: AppColors.primary,
-                    labelStyle: kLabelStyle,
-                    labelColor: AppColors.textColor,
+              body: NestedScrollView(
+                controller: _scrollController,
+                headerSliverBuilder: (context, value) {
+                  return [
+                    SliverToBoxAdapter(
+                      child: _buildCarousel(),
+                    ),
+                    SliverToBoxAdapter(
+                      child: Container(
+                        child: TabBar(
+                          indicatorColor: AppColors.primary,
+                          labelStyle: kLabelStyle,
+                          labelColor: AppColors.textColor,
+                          controller: _tabController,
+                          tabs: myTabs,
+                        ),
+                      ),
+                    ),
+                  ];
+                },
+                body: Container(
+                  child: TabBarView(
                     controller: _tabController,
-                    tabs: myTabs,
+                    children: [
+                      _buildTabContext(currentUser!.username),
+                      const Text("The locations will go here"),
+                    ],
                   ),
                 ),
               ),
-            ];
-          },
-          body: Container(
-            child: TabBarView(
-              controller: _tabController,
-              children: [
-                _buildTabContext(currentUser.username),
-                //TODO: implement locations
-                const Text("The locations will go here"),
-              ],
             ),
-          ),
-        ),
-      ),
-    );
+          );
   }
 }

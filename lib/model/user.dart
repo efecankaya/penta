@@ -22,7 +22,6 @@ class Profile {
 
   static Profile fromSnap(DocumentSnapshot snap) {
     var snapshot = snap.data() as Map<String, dynamic>;
-
     return Profile(
       username: snapshot["username"],
       name: snapshot["name"],
@@ -37,7 +36,7 @@ class Profile {
 
   Map<String, dynamic> toJson() => {
     "username": username,
-    "namename": name,
+    "name": name,
     "uid": uid,
     "email": email,
     "photoUrl": photoUrl,

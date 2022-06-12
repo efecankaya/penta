@@ -12,11 +12,18 @@ class Authentication {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   // get user details
-  Future<Profile> getUserDetails() async {
+  static Future<Profile> getCurrentUserDetails() async {
     User currentUser = firebaseAuth.currentUser!;
-
+    final FirebaseFirestore firestore = FirebaseFirestore.instance;
     DocumentSnapshot documentSnapshot =
-    await _firestore.collection('users').doc(currentUser.uid).get();
+        await firestore.collection('Users').doc(currentUser.uid).get();
+
+    return Profile.fromSnap(documentSnapshot);
+  }
+
+  static Future<Profile> getUserDetails(String uid) async {
+    final FirebaseFirestore firestore = FirebaseFirestore.instance;
+    DocumentSnapshot documentSnapshot = await firestore.collection('Users').doc(uid).get();
 
     return Profile.fromSnap(documentSnapshot);
   }
@@ -26,7 +33,8 @@ class Authentication {
     required String password,
   }) async {
     try {
-      UserCredential userCredential = await firebaseAuth.signInWithEmailAndPassword(
+      UserCredential userCredential =
+          await firebaseAuth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
@@ -36,14 +44,23 @@ class Authentication {
     }
   }
 
-  static Future<String> signUpWithEmail({
-    required BuildContext context,
+  static Future<String> writeUserInfo(
+      {required Profile user, required UserCredential cred}) async {
+    try {
+      FirebaseFirestore firestore = FirebaseFirestore.instance;
+      await firestore
+          .collection("Users")
+          .doc(cred.user!.uid)
+          .set(user.toJson());
+      return "success";
+    } on FirebaseAuthException catch (e) {
+      return e.code;
+    }
+  }
+
+  static Future<UserCredential?> signUpWithEmail({
     required String email,
     required String password,
-    required String name,
-    required String username,
-    required String bio,
-    required Uint8List file,
   }) async {
     try {
       //register user
@@ -51,27 +68,10 @@ class Authentication {
         email: email,
         password: password,
       );
-      //add user to the db
-      String photoUrl = await uploadImageToStorage('profilePics', file, false);
 
-      Profile _user = Profile(
-        name: name,
-        username: username,
-        uid: cred.user!.uid,
-        photoUrl: photoUrl,
-        email: email,
-        bio: bio,
-        followers: [],
-        following: [],
-      );
-
-      // adding user in our database
-      FirebaseFirestore firestore = FirebaseFirestore.instance;
-      await firestore.collection("Users").doc(cred.user!.uid).set(_user.toJson());
-
-      return "success";
+      return cred;
     } on FirebaseAuthException catch (e) {
-      return e.code;
+      return null;
     }
   }
 
@@ -80,19 +80,19 @@ class Authentication {
   }
 
   // adding image to firebase storage
-  static Future<String> uploadImageToStorage(String childName, Uint8List file, bool isPost) async {
+  static Future<String> uploadImageToStorage(
+      String childName, Uint8List file, bool isPost) async {
     // creating location to our firebase storage
     FirebaseStorage storage = FirebaseStorage.instance;
-    Reference ref = storage.ref().child(childName).child(firebaseAuth.currentUser!.uid);
-    if(isPost) {
+    Reference ref =
+        storage.ref().child(childName).child(firebaseAuth.currentUser!.uid);
+    if (isPost) {
       String id = const Uuid().v1();
       ref = ref.child(id);
     }
 
     // putting in uint8list format -> Upload task like a future but not future
-    UploadTask uploadTask = ref.putData(
-        file
-    );
+    UploadTask uploadTask = ref.putData(file);
 
     TaskSnapshot snapshot = await uploadTask;
     String downloadUrl = await snapshot.ref.getDownloadURL();

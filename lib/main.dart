@@ -60,8 +60,9 @@ class Penta extends StatelessWidget {
           );
         }
         else if (settings.name == "/profile/create") {
+          ProfileArguments args = settings.arguments! as ProfileArguments;
           return MaterialPageRoute(
-            builder: (_) => CreateProfileView(0),
+            builder: (_) => CreateProfileView(args.cred, args.username, args.email),
           );
         }
       },

@@ -10,6 +10,8 @@ import 'package:penta/firebase/authentication.dart';
 import 'package:penta/routes/create_profile_view.dart';
 import 'package:uuid/uuid.dart';
 import 'dart:typed_data';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class SignUpView extends StatefulWidget {
   @override
@@ -208,27 +210,18 @@ class _SignUpViewState extends State<SignUpView> {
                           onPressed: () async {
                             if (_formKey.currentState!.validate()) {
                               _formKey.currentState!.save();
-                              String result =
-                                  await Authentication.signUpWithEmail(
-                                      context: context,
-                                      email: email,
-                                      password: password,
-                                      username: "testusername",
-                                      name: "testname",
-                                      bio: "testbio",
-                                    file: Uint8List(0),
-                                  );
-                              if (result == 'weak-password') {
+                              UserCredential? cred =
+                              await Authentication.signUpWithEmail(
+                                email: email,
+                                password: password,
+                              );
+                              if (cred == null) {
                                 _showDialog("Signup Error",
-                                    'The password provided is too weak.');
-                              } else if (result == 'email-already-in-use') {
-                                _showDialog("Signup Error",
-                                    'An account already exists for this email.');
-                              } else if (result == "success") {
-                                Navigator.pushNamed(context, CreateProfileView.routeName);
+                                    'Account could not be created. Try different inputs.');
                               } else {
-                                _showDialog("Signup Error",
-                                    'An unknown error has occurred.');
+                                Navigator.pushNamed(
+                                    context, CreateProfileView.routeName,
+                                    arguments: ProfileArguments(cred, username, email));
                               }
                             }
                           },
