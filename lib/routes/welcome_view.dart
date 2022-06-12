@@ -1,3 +1,4 @@
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:penta/routes/login_view.dart';
 import 'package:penta/routes/signup_view.dart';
@@ -47,6 +48,36 @@ class WelcomeView extends StatelessWidget {
                 ),
               ),
             ),
+                      //The code which is commented have a button and when user clicked it it test for crashlytics.
+            //Padding(
+            //  padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+            //  child: Column(
+            //    children: [
+            //      Row(
+            //        children: [
+            //         Expanded(
+            //             child:OutlinedButton(
+            //               onPressed: () => FirebaseCrashlytics.instance.crash(),
+            //               child: Padding(
+            //                 padding: EdgeInsets.symmetric(vertical: 12.0),
+            //                 child: Text(
+            //                   'Testing for Crashlytics',
+            //                   style: kButtonLightTextStyle,
+            //                 ),
+            //               ),
+            //               style: OutlinedButton.styleFrom(
+            //                 backgroundColor: AppColors.primary,
+            //               ),
+            //             ),
+            //         ),
+            //        ],
+            //      ),
+            //    ],
+            //  ),
+            //),
+            //const SizedBox(
+            //  width: 10.0,
+            //),
             Expanded(
               flex: 1,
               child: Padding(
