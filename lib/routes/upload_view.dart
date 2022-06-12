@@ -6,6 +6,7 @@ import 'package:penta/util/styles.dart';
 import 'dart:io';
 import 'dart:async';
 
+
 //TODO: implement upload view
 
 class UploadView extends StatefulWidget {
@@ -20,10 +21,15 @@ class UploadView extends StatefulWidget {
 class _UploadViewState extends State<UploadView> {
   PlatformFile? pickedFile;
   UploadTask? uploadTask;
+
   Future selectFile() async{
 
     final result = await FilePicker.platform.pickFiles();
-    if (result == null) return;
+    if (result == null) {
+
+
+      return;
+    }
 
     setState((){
       pickedFile = result.files.first;
@@ -41,6 +47,12 @@ class _UploadViewState extends State<UploadView> {
 
     final urlDownload = await snapshot.ref.getDownloadURL();
     print('Download Link: $urlDownload');
+
+    setState((){
+      pickedFile = null;
+    });
+
+
   }
 
   @override
