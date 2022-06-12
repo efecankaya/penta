@@ -5,8 +5,7 @@ import 'package:penta/util/colors.dart';
 import 'package:penta/util/styles.dart';
 import 'dart:io';
 import 'dart:async';
-import 'package:penta/ui/staggered_grid_posts.dart';
-import 'package:penta/model/post.dart';
+
 
 //TODO: implement upload view
 
@@ -41,7 +40,7 @@ class _UploadViewState extends State<UploadView> {
     final path = 'Images/${pickedFile!.name}';
     final file = File(pickedFile!.path!);
 
-    final ref = FirebaseStorage.instance.ref().child('Images/');
+    final ref = FirebaseStorage.instance.ref().child(path);
     uploadTask = ref.putFile(file);
 
     final snapshot = await uploadTask!.whenComplete(() {});
@@ -52,6 +51,7 @@ class _UploadViewState extends State<UploadView> {
     setState((){
       pickedFile = null;
     });
+
 
   }
 
