@@ -1,3 +1,5 @@
+import 'dart:async';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:penta/routes/login_view.dart';
 import 'package:penta/routes/signup_view.dart';
@@ -22,12 +24,15 @@ import 'package:penta/model/user.dart';
 bool? initialLoad;
 
 void main() async {
+
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   SharedPreferences prefs = await SharedPreferences.getInstance();
   initialLoad = prefs.getBool("initialLoad");
+  //FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
 
   runApp(Penta());
+
 }
 
 class Penta extends StatelessWidget {
