@@ -9,6 +9,7 @@ class Profile {
   final String bio;
   final List followers;
   final List following;
+  final bool isPrivate;
 
   const Profile(
       {required this.username,
@@ -18,7 +19,8 @@ class Profile {
         required this.email,
         required this.bio,
         required this.followers,
-        required this.following});
+        required this.following,
+        required this.isPrivate});
 
   static Profile fromSnap(DocumentSnapshot snap) {
     var snapshot = snap.data() as Map<String, dynamic>;
@@ -31,6 +33,7 @@ class Profile {
       bio: snapshot["bio"],
       followers: snapshot["followers"],
       following: snapshot["following"],
+      isPrivate: snapshot["isPrivate"],
     );
   }
 
@@ -43,5 +46,6 @@ class Profile {
     "bio": bio,
     "followers": followers,
     "following": following,
+    "isPrivate": isPrivate,
   };
 }

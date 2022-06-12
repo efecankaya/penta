@@ -15,6 +15,7 @@ final DUMMY_USERS = [
     bio: "Richest Man Alive",
     followers: [],
     following: [],
+    isPrivate: false
   ),
 ];
 final DUMMY_NOTIF = [

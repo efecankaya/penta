@@ -15,6 +15,9 @@ import 'package:penta/routes/walkthrough_view.dart';
 import 'package:penta/util/arguments.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:penta/firebase/analytics.dart';
+import 'package:penta/firebase/authentication.dart';
+import 'package:penta/model/user.dart';
+
 
 bool? initialLoad;
 
@@ -156,17 +159,18 @@ class _MainViewState extends State<MainView> {
               //A view should be returned based on the tabItem that is selected.
               builder: (_) => TabNavigator(
                 tabItem: tabItem,
+                currentUser: currentUser,
               ),
             );
           } else if (settings.name == ProfileView.routeName) {
             //Add a user's profile view to this tab's navigation stack.
-            int userId = settings.arguments as int? ?? 0;
+            String uid = settings.arguments as String;
             Analytics.logCustomEvent(
               "profile_view",
-              {"user_id": userId},
+              {"user_id": uid},
             );
             return MaterialPageRoute(
-                builder: (_) => ProfileView(userId: userId));
+                builder: (_) => ProfileView(uid: uid));
           } else if (settings.name == PostView.routeName) {
             //Add a post view to this tab's navigation stack.
             var currentPost = settings.arguments as Post;
@@ -216,8 +220,15 @@ class _MainViewState extends State<MainView> {
     loggedIn = prefs.getBool('loggedIn');
   }
 
+  Profile? currentUser;
+
+  getUser() async {
+    currentUser = await Authentication.getCurrentUserDetails();
+  }
+
   @override
   void initState() {
+    getUser();
     super.initState();
     //Set loggedIn to false if it does not exist in shared preferences.
     getLoggedIn().whenComplete(() {

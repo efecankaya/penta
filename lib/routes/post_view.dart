@@ -73,7 +73,7 @@ class _PostViewState extends State<PostView> {
                           ),
                           onTap: () {
                             Navigator.pushNamed(context, ProfileView.routeName,
-                                arguments: 0);
+                                arguments: postOwner!.uid);
                           },
                         ),
                         const SizedBox(

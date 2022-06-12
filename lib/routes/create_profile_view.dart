@@ -213,7 +213,6 @@ class _CreateProfileViewState extends State<CreateProfileView> {
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
                           _formKey.currentState!.save();
-                          print("reached 1 $name");
                           String photoUrl = await Authentication.uploadImageToStorage('profilePics', _image == null ? Uint8List(0) : _image!, false);
                           Profile user = Profile(
                             name: name,
@@ -224,11 +223,10 @@ class _CreateProfileViewState extends State<CreateProfileView> {
                             bio: bio,
                             followers: [],
                             following: [],
+                            isPrivate: false,
                           );
-                          print("reached 2");
                           Authentication.writeUserInfo(
                               user: user, cred: widget.cred);
-                          print("reached 3");
                           Analytics.logSignUp();
                           final SharedPreferences prefs =
                               await SharedPreferences.getInstance();

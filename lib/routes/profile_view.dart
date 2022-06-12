@@ -20,9 +20,9 @@ import 'dart:convert';
 import 'package:penta/firebase/authentication.dart';
 
 class ProfileView extends StatefulWidget {
-  final int userId;
+  final String uid;
 
-  const ProfileView({required this.userId});
+  const ProfileView({required this.uid});
 
   @override
   State<ProfileView> createState() => _ProfileViewState();
@@ -217,7 +217,7 @@ class _ProfileViewState extends State<ProfileView>
   }
 
   getUser() async {
-    currentUser = await Authentication.getCurrentUserDetails();
+    currentUser = await Authentication.getUserDetails(widget.uid);
     setState(() {});
   }
 
