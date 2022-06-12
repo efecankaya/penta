@@ -33,6 +33,16 @@ class Post {
     );
   }
 
+  Map<String, dynamic> toJson() => {
+    "username": username,
+    "location": location,
+    "mediaUrl": mediaUrl,
+    "likes": likes,
+    "description": description,
+    "postId": postId,
+    "ownerId": ownerId,
+  };
+
   factory Post.fromMap(Map<String, dynamic> posts) {
     return Post(
       username: posts['username'],

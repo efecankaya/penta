@@ -1,9 +1,9 @@
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:uuid/uuid.dart';
 import 'dart:typed_data';
 import 'package:penta/model/user.dart';
+import 'package:penta/model/post.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Authentication {
@@ -51,6 +51,20 @@ class Authentication {
           .collection("Users")
           .doc(cred.user!.uid)
           .set(user.toJson());
+      return "success";
+    } on FirebaseAuthException catch (e) {
+      return e.code;
+    }
+  }
+
+  static Future<String> writePostInfo(
+      {required Post post}) async {
+    try {
+      FirebaseFirestore firestore = FirebaseFirestore.instance;
+      await firestore
+          .collection("Posts")
+          .doc(firebaseAuth.currentUser!.uid)
+          .set(post.toJson());
       return "success";
     } on FirebaseAuthException catch (e) {
       return e.code;
