@@ -1,6 +1,5 @@
-import 'package:flutter/material.dart';
+
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:penta/routes/create_profile_view.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:uuid/uuid.dart';
 import 'dart:typed_data';
@@ -9,21 +8,21 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Authentication {
   static final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   // get user details
   static Future<Profile> getCurrentUserDetails() async {
     User currentUser = firebaseAuth.currentUser!;
     final FirebaseFirestore firestore = FirebaseFirestore.instance;
     DocumentSnapshot documentSnapshot =
-        await firestore.collection('Users').doc(currentUser.uid).get();
+    await firestore.collection('Users').doc(currentUser.uid).get();
 
     return Profile.fromSnap(documentSnapshot);
   }
 
   static Future<Profile> getUserDetails(String uid) async {
     final FirebaseFirestore firestore = FirebaseFirestore.instance;
-    DocumentSnapshot documentSnapshot = await firestore.collection('Users').doc(uid).get();
+    DocumentSnapshot documentSnapshot = await firestore.collection('Users').doc(
+        uid).get();
 
     return Profile.fromSnap(documentSnapshot);
   }
@@ -34,7 +33,7 @@ class Authentication {
   }) async {
     try {
       UserCredential userCredential =
-          await firebaseAuth.signInWithEmailAndPassword(
+      await firebaseAuth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
@@ -80,12 +79,12 @@ class Authentication {
   }
 
   // adding image to firebase storage
-  static Future<String> uploadImageToStorage(
-      String childName, Uint8List file, bool isPost) async {
+  static Future<String> uploadImageToStorage(String childName, Uint8List file,
+      bool isPost) async {
     // creating location to our firebase storage
     FirebaseStorage storage = FirebaseStorage.instance;
     Reference ref =
-        storage.ref().child(childName).child(firebaseAuth.currentUser!.uid);
+    storage.ref().child(childName).child(firebaseAuth.currentUser!.uid);
     if (isPost) {
       String id = const Uuid().v1();
       ref = ref.child(id);
@@ -98,4 +97,5 @@ class Authentication {
     String downloadUrl = await snapshot.ref.getDownloadURL();
     return downloadUrl;
   }
+
 }

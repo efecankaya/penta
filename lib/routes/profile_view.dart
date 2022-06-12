@@ -4,7 +4,6 @@ import 'package:penta/util/styles.dart';
 import 'package:penta/util/screenSizes.dart';
 import 'package:penta/model/user.dart';
 import 'package:penta/model/post.dart';
-import 'package:penta/model/dummy_data.dart';
 import 'package:penta/ui/staggered_grid_posts.dart';
 import 'package:penta/ui/popup_menu.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -14,10 +13,9 @@ import 'package:penta/util/arguments.dart';
 import 'package:penta/firebase/analytics.dart';
 import 'package:penta/routes/google_view.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'dart:convert';
 import 'package:penta/firebase/authentication.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class ProfileView extends StatefulWidget {
   final String uid;
@@ -40,6 +38,7 @@ class _ProfileViewState extends State<ProfileView>
 
   List<Post>? postList;
   Profile? currentUser;
+  String? loggedInUserUid;
 
   //Builds the general information part of the page. (Everything above the tabs)
   Widget _buildCarousel() {
@@ -172,7 +171,7 @@ class _ProfileViewState extends State<ProfileView>
                   ],
                 ),
               ),
-              currentUser!.uid == 0
+              currentUser!.uid == loggedInUserUid
                   ? SizedBox.shrink()
                   : Container(
                       padding: const EdgeInsets.only(top: 10),
@@ -208,7 +207,7 @@ class _ProfileViewState extends State<ProfileView>
                           ),
                         ],
                       ),
-                    ),
+                    )
             ],
           ),
         ),
@@ -216,25 +215,25 @@ class _ProfileViewState extends State<ProfileView>
     );
   }
 
-  getUser() async {
-    currentUser = await Authentication.getUserDetails(widget.uid);
-    setState(() {});
-  }
+  getUser() async {}
 
   @override
   void initState() {
     _scrollController = ScrollController();
     _tabController = TabController(length: 2, vsync: this);
     getData();
-    getUser();
     super.initState();
   }
 
   getData() async {
+    currentUser = await Authentication.getUserDetails(widget.uid);
+    loggedInUserUid = FirebaseAuth.instance.currentUser!.uid;
+    setState(() {});
     QuerySnapshot posts =
         await FirebaseFirestore.instance.collection("Posts").get();
     postList = posts.docs
         .map((doc) => Post.fromMap(doc.data() as Map<String, dynamic>))
+        .where((element) => element.ownerId == currentUser!.uid)
         .toList();
     setState(() {});
   }
@@ -305,7 +304,18 @@ class _ProfileViewState extends State<ProfileView>
                   child: TabBarView(
                     controller: _tabController,
                     children: [
-                      _buildTabContext(currentUser!.username),
+                      (currentUser!.uid != loggedInUserUid &&
+                              currentUser!.isPrivate == true)
+                          ? Container(
+                        padding: EdgeInsets.all(15),
+                              child: Center(
+                                child: Text(
+                                    "This Account is Private",
+                                  style: kHeading2TextStyle,
+                                ),
+                              ),
+                            )
+                          : _buildTabContext(currentUser!.username),
                       const Text("The locations will go here"),
                     ],
                   ),

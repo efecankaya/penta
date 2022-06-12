@@ -48,4 +48,19 @@ class Profile {
     "following": following,
     "isPrivate": isPrivate,
   };
+
+  factory Profile.fromMap(Map<String, dynamic> users) {
+    return Profile(
+      username: users['username'],
+      name: users['name'],
+      uid: users['uid'],
+      email: users['email'],
+      photoUrl: users['photoUrl'],
+      bio: users['bio'],
+      followers: users['followers'],
+      following: users['following'],
+      isPrivate: false,
+
+    );
+  }
 }

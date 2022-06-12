@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:penta/util/colors.dart';
 import 'package:penta/util/styles.dart';
-import 'package:penta/model/dummy_data.dart';
 import 'package:penta/model/post.dart';
 import 'package:penta/ui/staggered_grid_posts.dart';
 import 'package:penta/model/user.dart';
 import 'package:penta/routes/profile_view.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'dart:convert';
 
 class SearchView extends StatefulWidget {
   @override
@@ -26,7 +24,9 @@ class _SearchViewState extends State<SearchView>
   late ScrollController _scrollController;
   List<Post>? allPosts;
   List<Post>? currentPosts;
-  List<Profile> users = DUMMY_USERS;
+  List<Profile>? allUsers;
+  List<Profile>? currentUsers;
+
 
   String query = '';
 
@@ -35,7 +35,8 @@ class _SearchViewState extends State<SearchView>
     _scrollController = ScrollController();
     _tabController = TabController(length: 4, vsync: this);
     super.initState();
-    this.getPosts();
+    getPosts();
+    getUsers();
   }
 
   @override
@@ -60,6 +61,12 @@ class _SearchViewState extends State<SearchView>
     allPosts = postSnapshot.docs.map((doc) => Post.fromMap(doc.data() as Map<String,dynamic>)).toList();
     currentPosts = allPosts;
   }
+  getUsers() async {
+    QuerySnapshot userSnapshot = await FirebaseFirestore.instance.collection("Users").get();
+    allUsers = userSnapshot.docs.map((doc) => Profile.fromMap(doc.data() as Map<String,dynamic>)).toList();
+    currentUsers = allUsers;
+  }
+
 
   _buildPostsTabContext(List<Post>? posts) => Container(
         child: ListView.builder(
@@ -106,7 +113,11 @@ class _SearchViewState extends State<SearchView>
                 controller: _tabController,
                 children: [
                   _buildPostsTabContext(currentPosts),
-                  AccountSearch(context, users),
+                  currentUsers != null?
+                  AccountSearch(context, currentUsers!)
+                  :Container(
+                      alignment: FractionalOffset.center,
+                      child: CircularProgressIndicator()),
                   const Text("The topics will go here"),
                   const Text("The locations will go here"),
                 ],
@@ -125,7 +136,7 @@ class _SearchViewState extends State<SearchView>
 
       return descriptionLower.contains(searchLower);
     }).toList();
-    final users = DUMMY_USERS.where((User) {
+    final users = allUsers!.where((User) {
       final descriptionLower = User.username.toLowerCase();
       final searchLower = query.toLowerCase();
 
@@ -135,7 +146,7 @@ class _SearchViewState extends State<SearchView>
     setState(() {
       this.query = query;
       this.currentPosts = resultPosts;
-      this.users = users;
+      this.currentUsers = users;
     });
   }
 }
@@ -239,7 +250,7 @@ Widget AccountSearch(context, List<Profile> Users) {
               ],
             ),
             onTap: () {
-              Profile currentUser = DUMMY_USERS
+              Profile currentUser = Users
                   .where(
                       (element) => element.username == "${Users[i].username}")
                   .toList()[0];

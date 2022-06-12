@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:penta/util/colors.dart';
 import 'package:penta/util/styles.dart';
 import 'package:penta/model/user.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:penta/firebase/authentication.dart';
+
 
 class SettingsView extends StatefulWidget {
   const SettingsView({Key? key}) : super(key: key);
@@ -9,10 +13,24 @@ class SettingsView extends StatefulWidget {
   @override
   State<SettingsView> createState() => _SettingsViewState();
   static const String routeName = '/profile/settings';
+
 }
 
 class _SettingsViewState extends State<SettingsView> {
   @override
+  Profile? currentUser;
+  bool v = false;
+  getUser() async {
+    currentUser = await Authentication.getCurrentUserDetails();
+    v = currentUser!.isPrivate;
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    getUser();
+    super.initState();
+  }
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -24,7 +42,11 @@ class _SettingsViewState extends State<SettingsView> {
         centerTitle: true,
         elevation: 0.0,
       ),
-      body: Container(
+      body: currentUser == null
+          ? Container(
+          alignment: FractionalOffset.center,
+          child: CircularProgressIndicator())
+          : Container(
         padding: const EdgeInsets.only(left: 16, top: 25, right: 16),
         child: ListView(
           children: [
@@ -60,8 +82,24 @@ class _SettingsViewState extends State<SettingsView> {
                 ),
                 Switch(
                   activeColor: AppColors.primary,
-                  value: true,
-                  onChanged: (bool val) {
+
+                  value: v,
+                  onChanged: (bool val) async {
+
+                    String uid = await FirebaseAuth.instance.currentUser!.uid;
+
+
+                    final docUser= FirebaseFirestore.instance.collection('Users').doc(uid);
+
+                    if(val == true)
+                      {docUser.update({'isPrivate':true});
+
+                      }
+                    else
+                      {docUser.update({'isPrivate':false});}
+                    setState(() {
+                      v = val;
+                    });
 
                   },
                 ),
